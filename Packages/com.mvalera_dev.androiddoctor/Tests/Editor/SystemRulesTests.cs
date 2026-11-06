@@ -59,6 +59,38 @@ namespace AndroidDoctor.Tests
             Assert.IsEmpty(EnvironmentVariablesRule.Evaluate(Vars(SdkHome, "")));
         }
 
+        [Test] public void Env008_VariablesPointingAtTheToolsUnityUses_AreNotReported()
+        {
+            // Unity itself sets JAVA_HOME to its own JDK while building for Android.
+            var tools = new AndroidTools
+            {
+                Jdk = TestContexts.Tool("C:\\Unity\\Data\\PlaybackEngines\\AndroidPlayer\\OpenJDK", ToolSource.Embedded),
+                Sdk = TestContexts.Tool("C:\\Unity\\Data\\PlaybackEngines\\AndroidPlayer\\SDK", ToolSource.Embedded),
+                Ndk = TestContexts.Tool("C:\\Unity\\Data\\PlaybackEngines\\AndroidPlayer\\NDK", ToolSource.Embedded),
+            };
+            var vars = Vars(
+                "JAVA_HOME", "c:/unity/data/playbackengines/androidplayer/openjdk/",
+                "ANDROID_HOME", "C:\\Unity\\Data\\PlaybackEngines\\AndroidPlayer\\SDK",
+                "ANDROID_NDK_HOME", "C:\\Unity\\Data\\PlaybackEngines\\AndroidPlayer\\NDK");
+
+            Assert.IsEmpty(EnvironmentVariablesRule.Evaluate(vars, tools));
+        }
+
+        [Test] public void Env008_VariablesPointingElsewhere_AreStillReported()
+        {
+            var tools = new AndroidTools { Jdk = TestContexts.Tool("C:\\Unity\\OpenJDK", ToolSource.Embedded) };
+            var findings = EnvironmentVariablesRule.Evaluate(Vars("JAVA_HOME", "C:\\Program Files\\Java\\jdk-21"), tools).ToArray();
+            Assert.AreEqual(1, findings.Length);
+            Assert.AreEqual(Severity.Info, findings[0].Severity);
+        }
+
+        [Test] public void Env008_AndroidSdkHome_IsReportedEvenIfItEqualsAUnityPath()
+        {
+            var tools = new AndroidTools { Sdk = TestContexts.Tool("C:\\Unity\\SDK", ToolSource.Embedded) };
+            var f = EnvironmentVariablesRule.Evaluate(Vars(SdkHome, "C:\\Unity\\SDK"), tools).Single();
+            Assert.AreEqual(Severity.Warning, f.Severity);
+        }
+
         [Test] public void Env008_ReadsTheRealProcessEnvironment()
         {
             System.Environment.SetEnvironmentVariable(SdkHome, "C:/real-process-value");

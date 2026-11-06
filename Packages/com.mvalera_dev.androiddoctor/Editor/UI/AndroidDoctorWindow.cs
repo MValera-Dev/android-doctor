@@ -10,6 +10,7 @@ namespace AndroidDoctor.UI
     public sealed class AndroidDoctorWindow : EditorWindow
     {
         Label _summary;
+        Label _buildFile;
         VisualElement _results;
 
         [MenuItem("Window/Android Doctor")]
@@ -33,10 +34,21 @@ namespace AndroidDoctor.UI
             root.Add(header);
             root.Add(new Label(Messages.Get("ui.subheader", Application.unityVersion)));
 
+            var buttons = new VisualElement();
+            buttons.style.flexDirection = FlexDirection.Row;
+            buttons.style.marginTop = 6;
+            buttons.style.marginBottom = 6;
             var run = new Button(RunChecks) { text = Messages.Get("ui.run") };
-            run.style.marginTop = 6;
-            run.style.marginBottom = 6;
-            root.Add(run);
+            run.style.flexGrow = 1;
+            var scanBuild = new Button(ScanBuild) { text = Messages.Get("ui.scanBuild") };
+            scanBuild.style.flexGrow = 1;
+            buttons.Add(run);
+            buttons.Add(scanBuild);
+            root.Add(buttons);
+
+            _buildFile = new Label();
+            _buildFile.style.display = DisplayStyle.None;
+            root.Add(_buildFile);
 
             _summary = new Label(Messages.Get("ui.idle"));
             root.Add(_summary);
@@ -48,12 +60,23 @@ namespace AndroidDoctor.UI
             root.Add(scroll);
         }
 
+        // Lets the user pick an APK or AAB by hand; the checks then include the build libraries (BLD001).
+        void ScanBuild()
+        {
+            string path = EditorUtility.OpenFilePanel(Messages.Get("ui.scanBuild.panel"), "", "apk,aab");
+            if (string.IsNullOrEmpty(path)) return; // cancelled
+            Build.BuildArtifactState.Set(path);
+            RunChecks();
+        }
+
         void RunChecks()
         {
             _results.Clear();
             try
             {
                 var ctx = RuleContext.Create();
+                _buildFile.style.display = ctx.ArtifactPath == null ? DisplayStyle.None : DisplayStyle.Flex;
+                if (ctx.ArtifactPath != null) _buildFile.text = Messages.Get("ui.build.current", ctx.ArtifactPath);
                 var rules = RuleRunner.DiscoverRules();
                 List<Finding> findings;
                 try

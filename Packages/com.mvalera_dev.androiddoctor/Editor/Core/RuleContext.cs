@@ -20,6 +20,7 @@ namespace AndroidDoctor
         public PlayRequirements Play;   // Editor/Data/play.json (null if unreadable)
         public string ProjectPath;      // folder that contains Assets/
         public string AssetsPath;
+        public string ArtifactPath;     // the APK/AAB the build checks should open; null when there is none
         public List<PackageRef> Packages = new List<PackageRef>();
 
         readonly Dictionary<string, object> _cache = new Dictionary<string, object>();
@@ -39,6 +40,7 @@ namespace AndroidDoctor
                 Tools = AndroidToolsReader.Read(),
                 ProjectPath = Directory.GetParent(Application.dataPath).FullName,
                 AssetsPath = Application.dataPath,
+                ArtifactPath = AndroidDoctor.Build.BuildArtifactState.Get(),
                 Compat = CompatTable.Load(),
                 Play = PlayRequirements.Load(),
             };

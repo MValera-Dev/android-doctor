@@ -65,7 +65,7 @@ namespace AndroidDoctor.Environment
             return new ToolPath { Path = null, Source = ToolSource.Unknown };
         }
 
-        static bool SamePath(string a, string b)
+        internal static bool SamePath(string a, string b)
         {
             try
             {
