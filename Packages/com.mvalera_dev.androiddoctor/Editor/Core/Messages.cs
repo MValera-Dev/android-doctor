@@ -122,6 +122,24 @@ namespace AndroidDoctor
             { "PRJ008.evidence.keystore", "Custom keystore: off" },
             { "PRJ008.evidence.development", "Development build: off" },
 
+            { "NAT001.title", "Native libraries from {0} are not 16 KB aligned ({1})" },
+            { "NAT001.detail", "Google Play requires 64-bit native libraries to be aligned to 16 KB. Ask the vendor for a 16 KB-compatible build, or rebuild the library with -Wl,-z,max-page-size=16384." },
+            { "NAT001.detail.package", "Google Play requires 64-bit native libraries to be aligned to 16 KB. Installed: {0} {1}. Update the package or ask the vendor for a version with 16 KB support." },
+            { "NAT001.evidence", "{0} ({1}) · LOAD align 0x{2} · {3}" },
+            { "NAT001.unreadable.title", "{0} native libraries could not be read" },
+            { "NAT001.unreadable.detail", "Their ELF header could not be read, so they were not checked. Each one is listed with the reason." },
+            { "NAT001.unreadable.evidence", "{0}: {1}" },
+            { "NAT001.32bit.title", "{0} 32-bit libraries are not evaluated" },
+            { "NAT001.32bit.detail", "Google Play does not require 32-bit libraries to be 16 KB aligned, so they are only counted." },
+
+            { "NAT002.title", "Native libraries from {0} have a misaligned RELRO segment ({1})" },
+            { "NAT002.detail", "The GNU_RELRO segment of these 64-bit libraries does not end on a 16 KB boundary, which Google's 16 KB guide lists as a requirement. Rebuild them with -Wl,-z,max-page-size=16384 -Wl,-z,common-page-size=16384, or with NDK r28 or newer." },
+            { "NAT002.evidence", "{0} ({1}) · RELRO end 0x{2} · {3}" },
+
+            { "NAT003.title", "Native libraries from {0} have no 64-bit version ({1})" },
+            { "NAT003.detail", "Google Play requires 64-bit libraries. These ship only 32-bit ABIs, so a 64-bit build cannot include them. Ask the vendor for an arm64-v8a version." },
+            { "NAT003.evidence", "{0}: {1}" },
+
             // Fixes
             { "fix.dialog.title", "Apply fix?" },
             { "fix.dialog.apply", "Apply" },
@@ -268,6 +286,24 @@ namespace AndroidDoctor
             { "PRJ008.detail", "Google Play rechaza las apps firmadas con la clave de debug. Configura una keystore en Player Settings > Publishing Settings y activa Custom Keystore." },
             { "PRJ008.evidence.keystore", "Custom keystore: desactivada" },
             { "PRJ008.evidence.development", "Development build: desactivado" },
+
+            { "NAT001.title", "Librerías nativas de {0} no alineadas a 16 KB ({1})" },
+            { "NAT001.detail", "Google Play exige que las librerías nativas de 64 bits estén alineadas a 16 KB. Pide al proveedor una versión compatible con 16 KB o recompila la librería con -Wl,-z,max-page-size=16384." },
+            { "NAT001.detail.package", "Google Play exige que las librerías nativas de 64 bits estén alineadas a 16 KB. Instalado: {0} {1}. Actualiza el paquete o pide al proveedor una versión con soporte de 16 KB." },
+            { "NAT001.evidence", "{0} ({1}) · LOAD align 0x{2} · {3}" },
+            { "NAT001.unreadable.title", "No se pudieron leer {0} librerías nativas" },
+            { "NAT001.unreadable.detail", "No se pudo leer su cabecera ELF, así que no se comprobaron. Cada una aparece con el motivo." },
+            { "NAT001.unreadable.evidence", "{0}: {1}" },
+            { "NAT001.32bit.title", "{0} librerías de 32 bits no se evalúan" },
+            { "NAT001.32bit.detail", "Google Play no exige que las librerías de 32 bits estén alineadas a 16 KB, así que solo se cuentan." },
+
+            { "NAT002.title", "Librerías nativas de {0} con el segmento RELRO desalineado ({1})" },
+            { "NAT002.detail", "El segmento GNU_RELRO de estas librerías de 64 bits no termina en un límite de 16 KB, que la guía de 16 KB de Google lista como requisito. Recompílalas con -Wl,-z,max-page-size=16384 -Wl,-z,common-page-size=16384 o con NDK r28 o posterior." },
+            { "NAT002.evidence", "{0} ({1}) · fin de RELRO 0x{2} · {3}" },
+
+            { "NAT003.title", "Librerías nativas de {0} sin versión de 64 bits ({1})" },
+            { "NAT003.detail", "Google Play exige librerías de 64 bits. Estas solo traen ABIs de 32 bits, así que un build de 64 bits no puede incluirlas. Pide al proveedor una versión arm64-v8a." },
+            { "NAT003.evidence", "{0}: {1}" },
 
             { "fix.dialog.title", "¿Aplicar el arreglo?" },
             { "fix.dialog.apply", "Aplicar" },
