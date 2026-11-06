@@ -43,6 +43,7 @@ namespace AndroidDoctor.UI
 
             var scroll = new ScrollView();
             scroll.style.flexGrow = 1;
+            scroll.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
             _results = scroll;
             root.Add(scroll);
         }
@@ -74,11 +75,42 @@ namespace AndroidDoctor.UI
                 if (f.Severity == Severity.Error) errors++;
                 else if (f.Severity == Severity.Warning) warnings++;
                 else infos++;
-                _results.Add(new Label(f.RuleId + "  " + f.Title));
+                _results.Add(CreateRow(f));
             }
             _summary.text = findings.Count == 0
                 ? Messages.Get("ui.noFindings")
                 : Messages.Get("ui.summary", errors, warnings, infos);
+        }
+
+        VisualElement CreateRow(Finding finding)
+        {
+            var row = new VisualElement();
+            row.style.flexDirection = FlexDirection.Row;
+            row.style.alignItems = Align.Center;
+
+            // The label takes the free width and wraps; the button keeps its size instead of being pushed out.
+            var label = new Label(finding.RuleId + "  " + finding.Title);
+            label.style.flexGrow = 1;
+            label.style.flexShrink = 1;
+            label.style.flexBasis = 0;
+            label.style.whiteSpace = WhiteSpace.Normal;
+            row.Add(label);
+
+            if (!string.IsNullOrEmpty(finding.FixId) && FixRegistry.Get(finding.FixId) != null)
+            {
+                var button = new Button(() => ApplyFix(finding)) { text = finding.FixLabel ?? Messages.Get("ui.fix") };
+                button.style.flexShrink = 0;
+                row.Add(button);
+            }
+            return row;
+        }
+
+        void ApplyFix(Finding finding)
+        {
+            string message;
+            bool applied = FixFlow.Run(finding, out message);
+            if (message != null) ShowNotification(new GUIContent(message));
+            if (applied) RunChecks(); // run again so the finding disappears
         }
 
         void ShowInternalError(Exception e)

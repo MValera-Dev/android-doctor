@@ -5,9 +5,6 @@ namespace AndroidDoctor.Environment
     /// <summary>ENV002: the JDK exists and, if it is a custom one, matches the major version Unity expects.</summary>
     public sealed class JdkRule : IRule
     {
-        // The fix itself is implemented together with the project rules; until then the UI shows no button.
-        internal const string OpenExternalToolsFixId = "FIX_OPEN_EXTERNAL_TOOLS";
-
         public string Id => "ENV002";
         public Category Category => Category.Environment;
 
@@ -23,7 +20,7 @@ namespace AndroidDoctor.Environment
                 yield return new Finding("ENV002", Category.Environment, Severity.Error,
                     Messages.Get("ENV002.missing.title"), Messages.Get("ENV002.missing.detail"),
                     new[] { Messages.Get("ENV002.evidence.path", jdk.Path) },
-                    OpenExternalToolsFixId, Messages.Get("ENV002.fix"));
+                    FixIds.OpenExternalTools, Messages.Get("ENV002.fix"));
                 yield break;
             }
 
@@ -40,7 +37,7 @@ namespace AndroidDoctor.Environment
                 Messages.Get("ENV002.version.title"),
                 Messages.Get("ENV002.version.detail", ctx.Unity.Key, row.jdk, version),
                 new[] { Messages.Get("ENV002.evidence.path", jdk.Path), Messages.Get("ENV002.evidence.version", version) },
-                OpenExternalToolsFixId, Messages.Get("ENV002.fix"));
+                FixIds.OpenExternalTools, Messages.Get("ENV002.fix"));
         }
     }
 }
