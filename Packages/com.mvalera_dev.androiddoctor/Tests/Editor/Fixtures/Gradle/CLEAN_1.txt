@@ -1,0 +1,160 @@
+
+> Configure project :launcher
+WARNING: The option setting 'android.builtInKotlin=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+WARNING: The option setting 'android.enableJetifier=true' is deprecated.
+The current default is 'false'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+
+> Configure project :unityLibrary
+Variant 'debug', will keep symbols in binaries for:
+  'libunity.so'
+  'libil2cpp.so'
+  'libmain.so'
+Variant 'release', symbols will be stripped from binaries.
+
+> Configure project :launcher
+Variant 'debug', will keep symbols in binaries for:
+  'libunity.so'
+  'libil2cpp.so'
+  'libmain.so'
+Variant 'release', symbols will be stripped from binaries.
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\build-tools\36.0.0\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-34\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-36\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\build-tools\36.0.0\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-34\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-36\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\build-tools\36.0.0\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-34\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-36\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\build-tools\36.0.0\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-34\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-36\package.xml. Probably the SDK is read-only
+Loading local repository...                                                     
+Info: Parsing legacy package: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\build-tools\36.0.0
+Info: Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\build-tools\36.0.0\package.xml. Probably the SDK is read-only
+Info: Parsing legacy package: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\cmake\3.22.1
+Info: Parsing legacy package: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\cmdline-tools\16.0
+Info: Parsing legacy package: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools
+Info: Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools\package.xml. Probably the SDK is read-only
+Info: Parsing legacy package: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-34
+Info: Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-34\package.xml. Probably the SDK is read-only
+Info: Parsing legacy package: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-36
+Info: Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-36\package.xml. Probably the SDK is read-only
+Info: Parsing legacy package: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-37.0
+Info: SDK Manager found the following installed packages: build-tools;36.0.0 platform-tools platforms;android-34 platforms;android-36
+[=========                              ] 25% Loading local repository...       
+
+> Task :unityLibrary:preBuild UP-TO-DATE
+> Task :unityLibrary:preReleaseBuild UP-TO-DATE
+> Task :launcher:preBuild UP-TO-DATE
+> Task :launcher:preReleaseBuild UP-TO-DATE
+> Task :launcher:mergeReleaseNativeDebugMetadata NO-SOURCE
+> Task :unityLibrary:generateReleaseResources
+> Task :launcher:generateReleaseResources
+> Task :launcher:checkReleaseDuplicateClasses
+> Task :launcher:packageReleaseResources
+> Task :launcher:javaPreCompileRelease
+> Task :launcher:mapReleaseSourceSetPaths
+> Task :launcher:createReleaseCompatibleScreenManifests
+> Task :unityLibrary:packageReleaseResources
+> Task :launcher:extractDeepLinksRelease
+> Task :unityLibrary:processReleaseNavigationResources
+> Task :unityLibrary:javaPreCompileRelease
+> Task :unityLibrary:writeReleaseAarMetadata
+> Task :unityLibrary:extractDeepLinksRelease
+> Task :unityLibrary:mapReleaseSourceSetPaths
+> Task :unityLibrary:compileReleaseLibraryResources
+> Task :unityLibrary:prepareReleaseArtProfile
+> Task :unityLibrary:generateReleaseAssets UP-TO-DATE
+> Task :unityLibrary:parseReleaseLocalResources
+> Task :unityLibrary:processReleaseManifest
+> Task :unityLibrary:mergeReleaseAssets
+> Task :unityLibrary:processReleaseJavaRes
+> Task :unityLibrary:extractProguardFiles
+> Task :unityLibrary:generateReleaseRFile
+> Task :unityLibrary:prepareLintJarForPublish
+> Task :launcher:processReleaseNavigationResources
+> Task :launcher:parseReleaseLocalResources
+> Task :launcher:compileReleaseNavigationResources
+> Task :launcher:checkReleaseAarMetadata
+> Task :launcher:processReleaseMainManifest
+> Task :launcher:generateReleaseRFile
+> Task :unityLibrary:compileReleaseJavaWithJavac
+> Task :launcher:mergeReleaseResources
+> Task :launcher:processReleaseManifest
+> Task :unityLibrary:bundleLibRuntimeToDirRelease
+> Task :unityLibrary:bundleLibRuntimeToJarRelease
+> Task :unityLibrary:bundleLibCompileToJarRelease
+> Task :launcher:mergeReleaseStartupProfile
+> Task :launcher:generateReleaseAssets UP-TO-DATE
+> Task :launcher:mergeReleaseArtProfile
+> Task :launcher:mergeReleaseAssets
+> Task :launcher:extractReleaseVersionControlInfo
+> Task :launcher:extractProguardFiles
+> Task :launcher:processReleaseJavaRes NO-SOURCE
+> Task :launcher:collectReleaseDependencies
+> Task :launcher:processReleaseManifestForPackage
+> Task :launcher:sdkReleaseDependencyData
+> Task :launcher:mergeReleaseJniLibFolders
+> Task :launcher:validateSigningRelease
+> Task :launcher:writeReleaseAppMetadata
+> Task :launcher:writeReleaseSigningConfigVersions
+> Task :unityLibrary:generateReleaseLintModel
+> Task :launcher:compileReleaseJavaWithJavac NO-SOURCE
+> Task :unityLibrary:createFullJarRelease
+> Task :unityLibrary:checkReleaseAarMetadata
+> Task :launcher:generateReleaseLintVitalReportModel
+> Task :launcher:compressReleaseAssets
+> Task :launcher:mergeReleaseJavaResource
+> Task :launcher:processReleaseResources
+> Task :launcher:dexBuilderRelease
+> Task :launcher:optimizeReleaseResources
+> Task :launcher:desugarReleaseFileDependencies
+> Task :launcher:mergeReleaseGlobalSynthetics
+> Task :unityLibrary:configureCMakeRelWithDebInfo[arm64-v8a]
+> Task :launcher:mergeExtDexRelease
+> Task :launcher:mergeDexRelease
+> Task :launcher:compileReleaseArtProfile
+> Task :unityLibrary:buildCMakeRelWithDebInfo[arm64-v8a]
+> Task :unityLibrary:mergeReleaseJniLibFolders
+> Task :unityLibrary:extractDeepLinksForAarRelease
+> Task :unityLibrary:extractReleaseAnnotations
+> Task :unityLibrary:mergeReleaseGeneratedProguardFiles
+> Task :unityLibrary:mergeReleaseConsumerProguardFiles
+> Task :unityLibrary:mergeReleaseJavaResource
+> Task :unityLibrary:syncReleaseLibJars
+> Task :unityLibrary:writeReleaseLintModelMetadata
+> Task :unityLibrary:generateReleaseLintVitalModel
+> Task :unityLibrary:mergeReleaseNativeLibs
+> Task :unityLibrary:copyReleaseJniLibsProjectOnly
+> Task :unityLibrary:stripReleaseDebugSymbols
+> Task :unityLibrary:copyReleaseJniLibsProjectAndLocalJars
+> Task :launcher:mergeReleaseNativeLibs
+> Task :launcher:stripReleaseDebugSymbols
+> Task :unityLibrary:lintVitalAnalyzeRelease
+> Task :unityLibrary:bundleReleaseLocalLintAar
+> Task :launcher:lintVitalAnalyzeRelease
+> Task :launcher:lintVitalReportRelease
+> Task :launcher:lintVitalRelease
+> Task :launcher:packageRelease
+> Task :launcher:createReleaseApkListingFileRedirect
+> Task :launcher:assembleRelease
+
+[Incubating] Problems report is available at: file:///C:/Dev/Unity/Projects/Android%20Doctor/Library/Bee/Android/Prj/IL2CPP/Gradle/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.3.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 1m 6s
+85 actionable tasks: 85 executed
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.3.1/userguide/configuration_cache_enabling.html

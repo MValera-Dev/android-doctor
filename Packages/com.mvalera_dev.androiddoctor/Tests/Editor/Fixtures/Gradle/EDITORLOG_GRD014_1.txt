@@ -1,0 +1,93 @@
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\OpenJDK\bin\java.exe -classpath "C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\Tools\gradle\lib\gradle-launcher-9.3.1.jar" org.gradle.launcher.GradleMain "-Dorg.gradle.jvmargs=-Xmx4096m" "assembleRelease" 
+WorkingDir: C:/Dev/Unity/Projects/Android Doctor/Library/Bee/Android/Prj/IL2CPP/Gradle\launcher
+Build log was saved at 'C:\Dev\Unity\Projects\Android Doctor\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\build\outputs\logs\unity-assembleRelease-build.log'
+
+> Configure project :launcher
+WARNING: The option setting 'android.builtInKotlin=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+WARNING: The option setting 'android.enableJetifier=true' is deprecated.
+The current default is 'false'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+
+[Incubating] Problems report is available at: file:///C:/Dev/Unity/Projects/Android%20Doctor/Library/Bee/Android/Prj/IL2CPP/Gradle/build/reports/problems/problems-report.html
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.Android.GradleInvokationException:ParseAndShowException () (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/Android/Gradle.cs:139)
+UnityEditor.Android.PostProcessor.PostProcessRunner:RunAllTasks (UnityEditor.Android.PostProcessor.PostProcessorContext) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/PostProcessor/AndroidPostProcessor.cs:121)
+UnityEditor.Android.PostProcessAndroidPlayer:PostProcess (UnityEditor.Modules.BuildPostProcessArgs,AndroidPlayerBuildProgram.Data.AndroidPlayerBuildProgramOutput) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/PostProcessAndroidPlayer.cs:362)
+UnityEditor.Android.AndroidBuildPostprocessor:PostProcess (UnityEditor.Modules.BuildPostProcessArgs,UnityEditor.BuildProperties&) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/AndroidBuildPostprocessor.cs:212)
+UnityEditor.PostprocessBuildPlayer:Postprocess (UnityEditor.BuildTarget,int,string,string,string,UnityEditor.BuildOptions,UnityEditor.RuntimeClassRegistry,UnityEditor.Build.Reporting.BuildReport,string[])
+UnityEditor.BuildPipeline:BuildPlayerInternal (string[],string,string,UnityEditor.BuildTargetGroup,UnityEditor.BuildTarget,int,UnityEditor.BuildOptions,string[],string[],bool)
+UnityEditor.BuildPipeline:BuildPlayer (UnityEditor.BuildPlayerOptions)
+Script/<<Initialize>>d__0:MoveNext () (at eval.cs:8)
+System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<object>:Start<Script/<<Initialize>>d__0> (Script/<<Initialize>>d__0&)
+Script:<Initialize> ()
+Script:<Factory> (object[])
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+Unity.Pipeline.Compilation.EvalCodeCompiler/<Run>d__6:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@303cb578aa66/Runtime/Compilation/EvalCodeCompiler.cs:128)
+System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Unity.Pipeline.Models.EvalResponse>:Start<Unity.Pipeline.Compilation.EvalCodeCompiler/<Run>d__6> (Unity.Pipeline.Compilation.EvalCodeCompiler/<Run>d__6&)
+Unity.Pipeline.Compilation.EvalCodeCompiler:Run (Unity.Pipeline.Compilation.CompilationResult,bool,System.Diagnostics.Stopwatch,Unity.Pipeline.Telemetry.EvalAnalyticsDetails)
+Unity.Pipeline.Compilation.EvalCodeCompiler/<CompileAndExecuteAsync>d__5:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@303cb578aa66/Runtime/Compilation/EvalCodeCompiler.cs:87)
+System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Unity.Pipeline.Models.EvalResponse>:Start<Unity.Pipeline.Compilation.EvalCodeCompiler/<CompileAndExecuteAsync>d__5> (Unity.Pipeline.Compilation.EvalCodeCompiler/<CompileAndExecuteAsync>d__5&)
+Unity.Pipeline.Compilation.EvalCodeCompiler:CompileAndExecuteAsync (string,System.Diagnostics.Stopwatch,bool,bool,bool,Unity.Pipeline.Telemetry.EvalAnalyticsDetails)
+Unity.Pipeline.Runtime.Commands.CodeEvalCommand/<EvaluateSource>d__8:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@303cb578aa66/Runtime/Commands/CodeEvalCommand.cs:151)
+System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Unity.Pipeline.Models.EvalResponse>:Start<Unity.Pipeline.Runtime.Commands.CodeEvalCommand/<EvaluateSource>d__8> (Unity.Pipeline.Runtime.Commands.CodeEvalCommand/<EvaluateSource>d__8&)
+Unity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateSource (string,string,bool,bool,bool)
+Unity.Pipeline.Runtime.Commands.CodeEvalCommand/<Eval>d__2:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@303cb578aa66/Runtime/Commands/CodeEvalCommand.cs:47)
+System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Unity.Pipeline.Models.EvalResponse>:Start<Unity.Pipeline.Runtime.Commands.CodeEvalCommand/<Eval>d__2> (Unity.Pipeline.Runtime.Commands.CodeEvalCommand/<Eval>d__2&)
+Unity.Pipeline.Runtime.Commands.CodeEvalCommand:Eval (string,string,double,bool,bool,bool)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+Unity.Pipeline.Commands.DefaultCommandQueue:InvokeDirect (Unity.Pipeline.Commands.CommandContext,Unity.Pipeline.Commands.CommandInfo,object[]) (at ./Library/PackageCache/com.unity.pipeline@303cb578aa66/Runtime/CommandExecution/CommandQueue/DefaultCommandQueue.cs:533)
+Unity.Pipeline.Commands.DefaultCommandQueue/<>c__DisplayClass20_0:<Invoke>b__2 () (at ./Library/PackageCache/com.unity.pipeline@303cb578aa66/Runtime/CommandExecution/CommandQueue/DefaultCommandQueue.cs:455)
+Unity.Pipeline.Threading.Dispatcher/WorkItem`1<object>:ExecuteCore () (at ./Library/PackageCache/com.unity.pipeline@303cb578aa66/Runtime/Common/Dispatcher.cs:342)
+Unity.Pipeline.Threading.Dispatcher/WorkItem:Execute () (at ./Library/PackageCache/com.unity.pipeline@303cb578aa66/Runtime/Common/Dispatcher.cs:285)
+Unity.Pipeline.Threading.Dispatcher:ProcessWorkQueue (int) (at ./Library/PackageCache/com.unity.pipeline@303cb578aa66/Runtime/Common/Dispatcher.cs:251)
+Unity.Pipeline.Threading.Dispatcher:ProcessWorkQueue () (at ./Library/PackageCache/com.unity.pipeline@303cb578aa66/Runtime/Common/Dispatcher.cs:266)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/Android/Gradle.cs Line: 139)
+
+
+FAILURE: Build completed with 2 failures.
+
+1: Task failed with an exception.
+-----------
+* Where:
+Build file 'C:\Dev\Unity\Projects\Android Doctor\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build.gradle' line: 80
+
+* What went wrong:
+Could not compile build file 'C:\Dev\Unity\Projects\Android Doctor\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build.gradle'.
+> startup failed:
+  build file 'C:\Dev\Unity\Projects\Android Doctor\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build.gradle': 80: Unexpected input: 'valid groovy {{{\n' @ line 80, column 1.
+  1 error
+
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+2: Task failed with an exception.
+-----------
+* What went wrong:
+A problem occurred configuring project ':launcher'.
+> Android Gradle Plugin: project ':launcher' does not specify `compileSdk` in build.gradle (C:\Dev\Unity\Projects\Android Doctor\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\build.gradle).
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+BUILD FAILED in 4s
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)

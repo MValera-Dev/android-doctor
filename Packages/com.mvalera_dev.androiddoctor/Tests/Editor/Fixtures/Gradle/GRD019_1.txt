@@ -1,0 +1,203 @@
+
+> Configure project :launcher
+WARNING: The option setting 'android.builtInKotlin=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+WARNING: The option setting 'android.enableJetifier=true' is deprecated.
+The current default is 'false'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+
+> Configure project :unityLibrary
+Variant 'debug', will keep symbols in binaries for:
+  'libunity.so'
+  'libil2cpp.so'
+  'libmain.so'
+Variant 'release', symbols will be stripped from binaries.
+
+> Configure project :launcher
+Variant 'debug', will keep symbols in binaries for:
+  'libunity.so'
+  'libil2cpp.so'
+  'libmain.so'
+Variant 'release', symbols will be stripped from binaries.
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\build-tools\36.0.0\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-34\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-36\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\build-tools\36.0.0\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-34\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-36\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\build-tools\36.0.0\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-34\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-36\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\build-tools\36.0.0\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-34\package.xml. Probably the SDK is read-only
+Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-36\package.xml. Probably the SDK is read-only
+Loading local repository...                                                     
+Info: Parsing legacy package: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\build-tools\36.0.0
+Info: Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\build-tools\36.0.0\package.xml. Probably the SDK is read-only
+Info: Parsing legacy package: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\cmake\3.22.1
+Info: Parsing legacy package: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\cmdline-tools\16.0
+Info: Parsing legacy package: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools
+Info: Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools\package.xml. Probably the SDK is read-only
+Info: Parsing legacy package: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-34
+Info: Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-34\package.xml. Probably the SDK is read-only
+Info: Parsing legacy package: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-36
+Info: Exception while marshalling C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-36\package.xml. Probably the SDK is read-only
+Info: Parsing legacy package: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platforms\android-37.0
+Info: SDK Manager found the following installed packages: build-tools;36.0.0 platform-tools platforms;android-34 platforms;android-36
+[=========                              ] 25% Loading local repository...       
+
+> Task :unityLibrary:preBuild UP-TO-DATE
+> Task :unityLibrary:LibA.androidlib:preBuild UP-TO-DATE
+> Task :unityLibrary:preReleaseBuild UP-TO-DATE
+> Task :unityLibrary:LibA.androidlib:preReleaseBuild UP-TO-DATE
+> Task :unityLibrary:LibB.androidlib:preBuild UP-TO-DATE
+> Task :unityLibrary:LibB.androidlib:preReleaseBuild UP-TO-DATE
+> Task :unityLibrary:generateReleaseResources UP-TO-DATE
+> Task :launcher:preBuild UP-TO-DATE
+> Task :launcher:preReleaseBuild UP-TO-DATE
+> Task :launcher:mergeReleaseNativeDebugMetadata NO-SOURCE
+> Task :unityLibrary:packageReleaseResources UP-TO-DATE
+> Task :unityLibrary:processReleaseNavigationResources UP-TO-DATE
+> Task :unityLibrary:parseReleaseLocalResources UP-TO-DATE
+> Task :unityLibrary:generateReleaseRFile UP-TO-DATE
+> Task :unityLibrary:javaPreCompileRelease UP-TO-DATE
+> Task :unityLibrary:writeReleaseAarMetadata UP-TO-DATE
+> Task :unityLibrary:extractDeepLinksRelease UP-TO-DATE
+> Task :unityLibrary:processReleaseManifest UP-TO-DATE
+> Task :unityLibrary:mapReleaseSourceSetPaths UP-TO-DATE
+> Task :unityLibrary:compileReleaseLibraryResources UP-TO-DATE
+> Task :unityLibrary:prepareReleaseArtProfile UP-TO-DATE
+> Task :unityLibrary:generateReleaseAssets UP-TO-DATE
+> Task :unityLibrary:LibB.androidlib:generateReleaseResources
+> Task :unityLibrary:LibA.androidlib:generateReleaseResources
+> Task :unityLibrary:mergeReleaseAssets
+> Task :unityLibrary:processReleaseJavaRes UP-TO-DATE
+> Task :unityLibrary:extractProguardFiles UP-TO-DATE
+> Task :unityLibrary:prepareLintJarForPublish UP-TO-DATE
+> Task :launcher:checkReleaseDuplicateClasses UP-TO-DATE
+> Task :launcher:generateReleaseResources UP-TO-DATE
+> Task :launcher:packageReleaseResources UP-TO-DATE
+> Task :launcher:javaPreCompileRelease UP-TO-DATE
+> Task :launcher:mapReleaseSourceSetPaths UP-TO-DATE
+> Task :launcher:createReleaseCompatibleScreenManifests UP-TO-DATE
+> Task :launcher:extractDeepLinksRelease UP-TO-DATE
+> Task :launcher:desugarReleaseFileDependencies UP-TO-DATE
+> Task :launcher:mergeReleaseStartupProfile UP-TO-DATE
+> Task :launcher:mergeExtDexRelease UP-TO-DATE
+> Task :launcher:generateReleaseAssets UP-TO-DATE
+> Task :launcher:extractReleaseVersionControlInfo UP-TO-DATE
+> Task :launcher:extractProguardFiles UP-TO-DATE
+> Task :launcher:processReleaseJavaRes NO-SOURCE
+> Task :unityLibrary:LibB.androidlib:packageReleaseResources
+> Task :unityLibrary:LibA.androidlib:packageReleaseResources
+> Task :unityLibrary:LibB.androidlib:processReleaseNavigationResources
+> Task :unityLibrary:LibA.androidlib:processReleaseNavigationResources
+> Task :launcher:collectReleaseDependencies
+> Task :unityLibrary:LibA.androidlib:javaPreCompileRelease
+> Task :unityLibrary:LibB.androidlib:javaPreCompileRelease
+> Task :unityLibrary:LibB.androidlib:extractDeepLinksRelease
+> Task :unityLibrary:LibB.androidlib:writeReleaseAarMetadata
+> Task :unityLibrary:LibA.androidlib:extractDeepLinksRelease
+> Task :unityLibrary:LibA.androidlib:writeReleaseAarMetadata
+> Task :launcher:processReleaseNavigationResources UP-TO-DATE
+> Task :launcher:parseReleaseLocalResources UP-TO-DATE
+> Task :launcher:generateReleaseRFile UP-TO-DATE
+> Task :unityLibrary:LibB.androidlib:mapReleaseSourceSetPaths
+> Task :unityLibrary:LibA.androidlib:mapReleaseSourceSetPaths
+> Task :unityLibrary:LibA.androidlib:parseReleaseLocalResources
+> Task :unityLibrary:LibB.androidlib:compileReleaseLibraryResources
+> Task :unityLibrary:LibA.androidlib:compileReleaseLibraryResources
+> Task :unityLibrary:LibB.androidlib:parseReleaseLocalResources
+> Task :launcher:compileReleaseNavigationResources UP-TO-DATE
+> Task :unityLibrary:LibB.androidlib:prepareReleaseArtProfile
+> Task :launcher:checkReleaseAarMetadata
+> Task :launcher:mergeReleaseResources UP-TO-DATE
+> Task :launcher:sdkReleaseDependencyData UP-TO-DATE
+> Task :launcher:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :launcher:validateSigningRelease UP-TO-DATE
+> Task :launcher:writeReleaseAppMetadata UP-TO-DATE
+> Task :launcher:writeReleaseSigningConfigVersions UP-TO-DATE
+> Task :unityLibrary:LibB.androidlib:generateReleaseAssets UP-TO-DATE
+> Task :unityLibrary:LibA.androidlib:prepareReleaseArtProfile
+> Task :unityLibrary:LibA.androidlib:generateReleaseAssets UP-TO-DATE
+> Task :unityLibrary:LibA.androidlib:mergeReleaseAssets
+> Task :unityLibrary:LibA.androidlib:processReleaseJavaRes NO-SOURCE
+> Task :unityLibrary:LibB.androidlib:mergeReleaseAssets
+> Task :launcher:mergeReleaseArtProfile UP-TO-DATE
+> Task :unityLibrary:LibB.androidlib:processReleaseJavaRes NO-SOURCE
+> Task :unityLibrary:LibA.androidlib:generateReleaseRFile
+> Task :unityLibrary:LibA.androidlib:extractProguardFiles
+> Task :unityLibrary:LibA.androidlib:compileReleaseJavaWithJavac NO-SOURCE
+
+> Task :unityLibrary:LibA.androidlib:processReleaseManifest
+package="com.example.libA" found in source AndroidManifest.xml: C:\Dev\Unity\Projects\Android Doctor\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\LibA.androidlib\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.example.libA" from the source AndroidManifest.xml: C:\Dev\Unity\Projects\Android Doctor\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\LibA.androidlib\AndroidManifest.xml.
+
+> Task :unityLibrary:LibB.androidlib:processReleaseManifest
+package="com.example.libB" found in source AndroidManifest.xml: C:\Dev\Unity\Projects\Android Doctor\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\LibB.androidlib\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.example.libB" from the source AndroidManifest.xml: C:\Dev\Unity\Projects\Android Doctor\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\LibB.androidlib\AndroidManifest.xml.
+
+> Task :unityLibrary:LibB.androidlib:extractProguardFiles
+> Task :unityLibrary:LibB.androidlib:generateReleaseRFile
+> Task :unityLibrary:LibB.androidlib:compileReleaseJavaWithJavac NO-SOURCE
+> Task :unityLibrary:LibB.androidlib:prepareLintJarForPublish
+> Task :unityLibrary:LibA.androidlib:bundleLibRuntimeToDirRelease
+> Task :unityLibrary:LibA.androidlib:bundleLibRuntimeToJarRelease
+> Task :unityLibrary:LibA.androidlib:bundleLibCompileToJarRelease
+> Task :unityLibrary:LibB.androidlib:bundleLibCompileToJarRelease
+> Task :unityLibrary:LibB.androidlib:bundleLibRuntimeToDirRelease
+> Task :unityLibrary:LibB.androidlib:bundleLibRuntimeToJarRelease
+> Task :unityLibrary:LibB.androidlib:createFullJarRelease
+> Task :launcher:mergeReleaseAssets
+> Task :unityLibrary:LibB.androidlib:generateReleaseLintModel
+> Task :unityLibrary:LibA.androidlib:generateReleaseLintModel
+> Task :unityLibrary:LibB.androidlib:checkReleaseAarMetadata
+> Task :unityLibrary:LibA.androidlib:createFullJarRelease
+> Task :unityLibrary:LibB.androidlib:mergeReleaseJniLibFolders
+> Task :unityLibrary:LibA.androidlib:prepareLintJarForPublish
+> Task :unityLibrary:LibB.androidlib:mergeReleaseNativeLibs NO-SOURCE
+
+> Task :launcher:processReleaseMainManifest FAILED
+
+See https://developer.android.com/r/studio-ui/build/manifest-merger for more information about the manifest merger.
+
+
+> Task :unityLibrary:LibB.androidlib:stripReleaseDebugSymbols NO-SOURCE
+> Task :unityLibrary:LibA.androidlib:checkReleaseAarMetadata
+> Task :unityLibrary:configureCMakeRelWithDebInfo[arm64-v8a]
+
+[Incubating] Problems report is available at: file:///C:/Dev/Unity/Projects/Android%20Doctor/Library/Bee/Android/Prj/IL2CPP/Gradle/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.3.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+87 actionable tasks: 49 executed, 38 up-to-date
+C:\Dev\Unity\Projects\Android Doctor\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\src\main\AndroidManifest.xml:3:48-80 Error:
+	Attribute application@label value=(@string/app_name) from AndroidManifest.xml:3:48-80
+	is also present at [:unityLibrary:LibA.androidlib] AndroidManifest.xml:7:18-41 value=(Label A).
+	Suggestion: add 'tools:replace="android:label"' to <application> element at AndroidManifest.xml:3:3-83 to override.
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':launcher:processReleaseMainManifest'.
+> Manifest merger failed : Attribute application@label value=(@string/app_name) from AndroidManifest.xml:3:48-80
+  	is also present at [:unityLibrary:LibA.androidlib] AndroidManifest.xml:7:18-41 value=(Label A).
+  	Suggestion: add 'tools:replace="android:label"' to <application> element at AndroidManifest.xml:3:3-83 to override.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 13s
