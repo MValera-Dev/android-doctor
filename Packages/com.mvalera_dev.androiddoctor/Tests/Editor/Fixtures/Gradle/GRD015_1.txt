@@ -1,0 +1,27 @@
+
+> Configure project :launcher
+Unable to initialize metrics, ensure C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK is writable, details: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\analytics.settings (Acceso denegado)
+WARNING: The option setting 'android.builtInKotlin=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+WARNING: The option setting 'android.enableJetifier=true' is deprecated.
+The current default is 'false'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file 'C:\Dev\Unity\Projects\Android Doctor\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\build.gradle' line: 1
+
+* What went wrong:
+A problem occurred evaluating project ':launcher'.
+> Failed to apply plugin 'com.android.internal.application'.
+   > C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\.android
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 2s
