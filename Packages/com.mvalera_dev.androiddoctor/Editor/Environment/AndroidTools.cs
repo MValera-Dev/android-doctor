@@ -27,6 +27,7 @@ namespace AndroidDoctor.Environment
     public static class AndroidToolsReader
     {
         const string SettingsType = "UnityEditor.Android.AndroidExternalToolsSettings";
+        const string SettingsAssembly = "UnityEditor.Android.Extensions";
         const BindingFlags StaticPublic = BindingFlags.Public | BindingFlags.Static;
 
         public static AndroidTools Read()
@@ -78,9 +79,17 @@ namespace AndroidDoctor.Environment
 
         static Type FindSettingsType()
         {
+            // Fast path: the type lives in the Android extensions assembly, resolvable by qualified name.
+            var type = Type.GetType(SettingsType + ", " + SettingsAssembly, false);
+            if (type != null) return type;
+
+            // Fallback in case a Unity version moves the type to another assembly. This runs once per
+            // diagnosis, so the analyzer's concern about unloaded assemblies does not apply.
+#pragma warning disable UAC0005
             foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+#pragma warning restore UAC0005
             {
-                var type = asm.GetType(SettingsType, false);
+                type = asm.GetType(SettingsType, false);
                 if (type != null) return type;
             }
             return null;
