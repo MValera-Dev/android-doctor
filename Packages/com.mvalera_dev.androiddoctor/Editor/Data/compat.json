@@ -1,0 +1,9 @@
+{
+    "asOf": "2026-11-06",
+    "unity": [
+        { "match": "2021.3", "jdk": 11, "ndk": "21.3.6528147", "buildTools": "34.0.0", "gradle": "6.1.1", "agp": "4.0.1", "minSdk": -1 },
+        { "match": "2022.3", "jdk": 11, "ndk": "23.1.7779620", "buildTools": "34.0.0", "gradle": "7.2", "agp": "7.1.2", "minSdk": -1 },
+        { "match": "6000", "jdk": 17, "ndk": "27.2.12479018", "buildTools": "36.0.0", "gradle": null, "agp": null, "minSdk": -1 },
+        { "match": "6000.5", "jdk": 17, "ndk": "27.2.12479018", "buildTools": "36.0.0", "gradle": "9.1.0", "agp": "9.0.0", "minSdk": 26 }
+    ]
+}
