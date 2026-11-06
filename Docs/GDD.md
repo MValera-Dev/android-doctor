@@ -259,8 +259,10 @@ git push -u origin main
 
 ### Flujo de ramas y commits (para todo el proyecto)
 
-- `main` siempre compila y pasa los tests.
-- Una rama por fase: `feat/fase-1-core`, `feat/fase-2-entorno`, etc. Se fusiona a `main` cuando se cumple el criterio de aceptación de la fase.
+- `develop` es la rama de trabajo; `main` solo recibe releases oficiales.
+- `develop` y `main` siempre compilan y pasan los tests.
+- Una rama por fase: `feat/fase-1-core`, `feat/fase-2-entorno`, etc. Se fusiona a `develop` cuando se cumple el criterio de aceptación de la fase.
+- `main` se actualiza desde `develop` solo al publicar una release.
 - Mensajes en formato Conventional Commits: `feat:`, `fix:`, `test:`, `docs:`, `chore:`.
 - Versiones con etiquetas: `v0.1.0` al terminar cada fase; `v1.0.0` al publicar.
 
@@ -1323,7 +1325,7 @@ Las fases 2, 3, 4 y 6 son independientes entre sí una vez hecha la 1.
 - Todos los tests pasan y los de la fase están escritos.
 - La Consola no muestra excepciones al abrir la ventana ni al ejecutar las reglas.
 - Se cumple el criterio de aceptación de la fase.
-- Un commit por tarea con mensaje Conventional Commits; al terminar, fusión a `main` y etiqueta `v0.N.0`.
+- Un commit por tarea con mensaje Conventional Commits; al terminar, fusión a `develop` y etiqueta `v0.N.0`.
 
 ### Prohibido en todo el proyecto
 
