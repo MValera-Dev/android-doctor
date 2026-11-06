@@ -1,0 +1,11 @@
+{
+    "asOf": "2026-11-06",
+    "minTargetSdk": 36,
+    "minTargetSdkDeadline": "2026-08-31",
+    "require64Bit": true,
+    "require16KB": true,
+    "knownPackages": [
+        { "name": "com.unity.burst", "minVersion": "1.8.21", "severity": "Error", "reason": "Older Burst versions ship libburst_generated.so without 16 KB alignment." },
+        { "name": "com.google.android.appbundle", "minVersion": "1.10.0", "severity": "Warning", "reason": "Includes bundletool 1.18.1; bundletool 1.17.0+ defaults to 16 KB page alignment (community-reported)." }
+    ]
+}
