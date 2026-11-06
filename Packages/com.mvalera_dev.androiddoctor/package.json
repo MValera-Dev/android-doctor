@@ -1,0 +1,10 @@
+{
+    "name": "com.mvalera_dev.androiddoctor",
+    "displayName": "Android Doctor",
+    "version": "0.1.0",
+    "unity": "2022.3",
+    "description": "Diagnoses Android build, Gradle and Google Play 16 KB problems in Unity.",
+    "keywords": ["android", "gradle", "google-play", "16kb", "diagnostics"],
+    "author": { "name": "Marcos Valera Prados", "url": "https://valeradev.itch.io" },
+    "license": "MIT"
+}

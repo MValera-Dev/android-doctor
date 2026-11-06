@@ -1,0 +1,9 @@
+* text=auto
+*.cs text diff=csharp
+*.json text
+*.md text
+*.so binary
+*.aar binary
+*.apk binary
+*.aab binary
+Packages/*/Tests/**/Fixtures/** -text
