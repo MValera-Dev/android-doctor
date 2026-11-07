@@ -33,6 +33,7 @@ namespace AndroidDoctor.Gradle
             try
             {
                 SessionState.SetString(SessionKey, condition);
+                LastBuildFailure.ForgetAddressed();
                 var main = GradleTranslator.Translate(error).First();
                 Debug.LogWarning(main.RuleId == GradleTranslator.UnknownId
                     ? Messages.Get("gradle.capture.unknown")

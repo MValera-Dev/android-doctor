@@ -14,7 +14,7 @@ namespace AndroidDoctor.Gradle
 
         public IEnumerable<Finding> Run(RuleContext ctx)
         {
-            return Evaluate(GradleErrorCapture.Get() ?? LastBuildAnalyzer.Analyze(), null);
+            return Evaluate(LastBuildFailure.Current(), null);
         }
 
         internal static IEnumerable<Finding> Evaluate(GradleError error, ProjectIndex project)

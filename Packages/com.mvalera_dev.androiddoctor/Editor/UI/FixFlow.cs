@@ -71,7 +71,9 @@ namespace AndroidDoctor.UI
             var fix = FixRegistry.Get(action.FixId);
             if (fix == null) return false;
             if (!confirm(Describe(fix, finding, action))) return false;
-            return Apply(fix, finding, action, out message);
+            bool applied = Apply(fix, finding, action, out message);
+            if (applied && FixIds.ChangesSettings(action.FixId)) Gradle.LastBuildFailure.MarkAddressed();
+            return applied;
         }
 
         internal static bool RunAll(IList<Finding> findings, Func<string, bool> confirm, out string message)
@@ -96,6 +98,7 @@ namespace AndroidDoctor.UI
                 if (ok) applied++;
                 if (!string.IsNullOrEmpty(one)) results.Add((ok ? "" : Messages.Get("fix.all.failed") + " ") + one);
             }
+            if (applied > 0) Gradle.LastBuildFailure.MarkAddressed();
             message = Messages.Get("fix.all.done", applied, items.Count) + (results.Count > 0 ? "\n" + string.Join("\n", results) : "");
             return applied > 0;
         }
