@@ -20,7 +20,8 @@ namespace AndroidDoctor.Environment
             {
                 yield return new Finding("ENV007", Category.Environment, Severity.Warning,
                     Messages.Get("ENV007.missing.title"), Messages.Get("ENV007.missing.detail"),
-                    new[] { Messages.Get("ENV007.evidence.path", gradle.Path) });
+                    new[] { Messages.Get("ENV007.evidence.path", gradle.Path) },
+                    actions: UseUnityToolsFix.ActionsFor("gradle", true));
                 yield break;
             }
 
@@ -34,7 +35,8 @@ namespace AndroidDoctor.Environment
             yield return new Finding("ENV007", Category.Environment, Severity.Warning,
                 Messages.Get("ENV007.version.title"),
                 Messages.Get("ENV007.version.detail", ctx.Unity.Key, row.gradle, version),
-                new[] { Messages.Get("ENV007.evidence.path", gradle.Path), Messages.Get("ENV007.evidence.version", version) });
+                new[] { Messages.Get("ENV007.evidence.path", gradle.Path), Messages.Get("ENV007.evidence.version", version) },
+                actions: UseUnityToolsFix.ActionsFor("gradle", true));
         }
     }
 }

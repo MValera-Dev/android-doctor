@@ -26,7 +26,8 @@ namespace AndroidDoctor.Environment
             {
                 yield return new Finding("ENV006", Category.Environment, Severity.Error,
                     Messages.Get("ENV006.missing.title"), Messages.Get("ENV006.missing.detail"),
-                    new[] { Messages.Get("ENV006.evidence.path", ndk.Path) });
+                    new[] { Messages.Get("ENV006.evidence.path", ndk.Path) },
+                    actions: UseUnityToolsFix.ActionsFor("ndk", ndk.Source == ToolSource.Custom));
                 yield break;
             }
 
@@ -40,7 +41,8 @@ namespace AndroidDoctor.Environment
             yield return new Finding("ENV006", Category.Environment, Severity.Warning,
                 Messages.Get("ENV006.version.title"),
                 Messages.Get("ENV006.version.detail", ctx.Unity.Key, row.ndk, revision),
-                new[] { Messages.Get("ENV006.evidence.path", ndk.Path), Messages.Get("ENV006.evidence.version", revision) });
+                new[] { Messages.Get("ENV006.evidence.path", ndk.Path), Messages.Get("ENV006.evidence.version", revision) },
+                actions: UseUnityToolsFix.ActionsFor("ndk", true));
         }
     }
 }

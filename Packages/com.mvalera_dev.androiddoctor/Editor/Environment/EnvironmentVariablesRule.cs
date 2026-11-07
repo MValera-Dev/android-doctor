@@ -36,7 +36,8 @@ namespace AndroidDoctor.Environment
                 {
                     // Seen in real Unity build errors: it breaks applying the Android Gradle plugin.
                     yield return new Finding("ENV008", Category.Environment, Severity.Warning,
-                        Messages.Get("ENV008.sdkHome.title"), Messages.Get("ENV008.sdkHome.detail"), evidence);
+                        Messages.Get("ENV008.sdkHome.title"), Messages.Get("ENV008.sdkHome.detail"), evidence,
+                        actions: new[] { new FixAction(FixIds.ClearEnvironmentVariable, Messages.Get("ENV008.fix", name), name, true) });
                 }
                 else
                 {
