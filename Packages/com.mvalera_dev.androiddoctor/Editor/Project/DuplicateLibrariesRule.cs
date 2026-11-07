@@ -12,6 +12,21 @@ namespace AndroidDoctor.Project
 
         public IEnumerable<Finding> Run(RuleContext ctx) => Evaluate(ctx);
 
+        /// <summary>One button per version ("keep this one, turn the others off"), newest first, and one to look at the files.</summary>
+        internal static FixAction[] KeepOneVersion(List<KeyValuePair<string, string>> files, List<string> versions)
+        {
+            var ordered = versions.OrderBy(v => v, Comparer<string>.Create((a, b) => VersionCompare.IsLess(a, b) ? 1 : VersionCompare.IsLess(b, a) ? -1 : 0)).ToList();
+            var actions = new List<FixAction>();
+            foreach (string keep in ordered)
+            {
+                var others = files.Where(e => !string.Equals(e.Value, keep, StringComparison.OrdinalIgnoreCase)).Select(e => e.Key).ToList();
+                string label = Messages.Get(actions.Count == 0 ? "PRJ007.keepNewest" : "PRJ007.keep", keep);
+                actions.Add(new FixAction(FixIds.DisablePlugin, label, string.Join(DisablePluginFix.Separator.ToString(), others)));
+            }
+            actions.Add(new FixAction(FixIds.SelectAsset, Messages.Get("PRJ007.fix")));
+            return actions.ToArray();
+        }
+
         internal static IEnumerable<Finding> Evaluate(RuleContext ctx)
         {
             if (string.IsNullOrEmpty(ctx.AssetsPath)) yield break;
@@ -42,7 +57,7 @@ namespace AndroidDoctor.Project
                 var paths = group.Value.Select(e => e.Key).OrderBy(p => p, StringComparer.Ordinal).ToList();
                 yield return new Finding("PRJ007", Category.Project, Severity.Warning,
                     Messages.Get("PRJ007.title", group.Key), Messages.Get("PRJ007.detail", string.Join(", ", versions)),
-                    paths, FixIds.SelectAsset, Messages.Get("PRJ007.fix"));
+                    paths, actions: KeepOneVersion(group.Value, versions));
             }
         }
     }

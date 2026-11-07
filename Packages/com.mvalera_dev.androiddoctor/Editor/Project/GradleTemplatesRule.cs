@@ -36,7 +36,8 @@ namespace AndroidDoctor.Project
                 : Messages.Get("PRJ005.detail.generic");
 
             yield return new Finding("PRJ005", Category.Project, severity,
-                Messages.Get("PRJ005.title"), detail, found);
+                Messages.Get("PRJ005.title"), detail, found,
+                actions: new[] { new FixAction(FixIds.ResetTemplates, Messages.Get("PRJ005.fix"), string.Join(ResetTemplatesFix.Separator.ToString(), found)) });
         }
     }
 }

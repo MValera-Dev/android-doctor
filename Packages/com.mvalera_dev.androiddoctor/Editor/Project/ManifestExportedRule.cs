@@ -40,7 +40,8 @@ namespace AndroidDoctor.Project
                     string name = string.IsNullOrEmpty(component.Name) ? Messages.Get("PRJ006.unnamed") : component.Name;
                     yield return new Finding("PRJ006", Category.Project, Severity.Error,
                         Messages.Get("PRJ006.title", component.Tag, name), Messages.Get("PRJ006.detail"),
-                        new[] { Messages.Get("PRJ006.evidence", display, component.Line, component.Tag, name) });
+                        new[] { Messages.Get("PRJ006.evidence", display, component.Line, component.Tag, name) },
+                        actions: new[] { new FixAction(FixIds.Exported, Messages.Get("PRJ006.fix"), display, true) });
                 }
             }
         }

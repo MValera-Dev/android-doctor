@@ -16,7 +16,8 @@ namespace AndroidDoctor.Project
             if (buildAppBundle) yield break;
             yield return new Finding("PRJ004", Category.Project, Severity.Info,
                 Messages.Get("PRJ004.title"), Messages.Get("PRJ004.detail"),
-                new[] { Messages.Get("PRJ004.evidence") });
+                new[] { Messages.Get("PRJ004.evidence") },
+                actions: new[] { new FixAction(FixIds.AppBundle, Messages.Get("PRJ004.fix")) });
         }
     }
 }

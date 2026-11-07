@@ -285,7 +285,13 @@ namespace AndroidDoctor.Tests
                 var f = DuplicateLibrariesRule.Evaluate(ContextWithAssets(tmp)).Single();
                 Assert.AreEqual("PRJ007", f.RuleId);
                 Assert.AreEqual(Severity.Warning, f.Severity);
-                Assert.AreEqual("FIX_SELECT_ASSET", f.FixId);
+                // One button per version, newest first, and a last one to look at the files. None is part of "Fix all".
+                Assert.AreEqual(3, f.Actions.Count);
+                Assert.AreEqual("FIX_DISABLE_PLUGIN", f.Actions[0].FixId);
+                Assert.AreEqual("Assets/Plugins/Android/foo-1.0.0.aar", f.Actions[0].Arg, "keeping 1.1.0 turns 1.0.0 off");
+                Assert.AreEqual("Assets/Plugins/Android/foo-1.1.0.aar", f.Actions[1].Arg);
+                Assert.AreEqual("FIX_SELECT_ASSET", f.Actions[2].FixId);
+                Assert.IsFalse(f.Actions.Any(a => a.AllInOne));
                 CollectionAssert.AreEqual(new[]
                 {
                     "Assets/Plugins/Android/foo-1.0.0.aar",

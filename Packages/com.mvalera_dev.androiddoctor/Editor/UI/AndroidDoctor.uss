@@ -1,0 +1,236 @@
+/* Android Doctor. Colours come from the Editor's own theme variables, so it follows the light and dark skins. */
+
+.ad-root {
+    flex-grow: 1;
+    padding: 10px 12px 8px 12px;
+}
+
+/* Header and tabs */
+
+.ad-header {
+    flex-direction: row;
+    align-items: flex-end;
+    margin-bottom: 8px;
+}
+
+.ad-title {
+    font-size: 15px;
+    -unity-font-style: bold;
+}
+
+.ad-muted {
+    color: var(--unity-colors-disabled-text);
+}
+
+.ad-version {
+    margin-left: 8px;
+    margin-bottom: 1px;
+    font-size: 11px;
+}
+
+.ad-tabs {
+    flex-direction: row;
+    margin-bottom: 8px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--unity-colors-helpbox-border);
+}
+
+.ad-tab {
+    margin: 0;
+    padding: 4px 12px 5px 12px;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-radius: 0;
+}
+
+.ad-tab--selected {
+    -unity-font-style: bold;
+    border-bottom-color: var(--unity-colors-highlight-background);
+}
+
+/* Verdict: one plain sentence about the whole project */
+
+.ad-verdict {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 6px;
+    padding: 10px 12px;
+    border-width: 1px;
+    border-color: var(--unity-colors-helpbox-border);
+    border-radius: 3px;
+    background-color: var(--unity-colors-default-background);
+}
+
+.ad-verdict-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    margin-right: 12px;
+}
+
+.ad-verdict-text {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+}
+
+.ad-verdict-title {
+    font-size: 14px;
+    -unity-font-style: bold;
+    white-space: normal;
+}
+
+.ad-verdict-sub {
+    margin-top: 1px;
+    white-space: normal;
+}
+
+.ad-verdict-buttons {
+    flex-shrink: 0;
+    margin-left: 12px;
+}
+
+.ad-primary {
+    margin: 0;
+    padding: 5px 14px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    background-color: rgb(40, 92, 146);
+    border-color: rgb(30, 70, 112);
+}
+
+.ad-primary:hover {
+    opacity: 0.88;
+}
+
+.ad-secondary {
+    margin: 4px 0 0 0;
+    padding: 3px 14px;
+}
+
+/* Findings: flat rows, one divider each */
+
+.ad-results {
+    flex-grow: 1;
+}
+
+.ad-group-title {
+    margin: 10px 0 2px 2px;
+    -unity-font-style: bold;
+}
+
+.ad-row {
+    flex-direction: row;
+    padding: 8px 4px 6px 4px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--unity-colors-helpbox-border);
+}
+
+.ad-row-icon {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin: 1px 8px 0 0;
+}
+
+.ad-row-body {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+}
+
+.ad-row-head {
+    flex-direction: row;
+}
+
+.ad-row-title {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    white-space: normal;
+    -unity-font-style: bold;
+}
+
+.ad-row-id {
+    flex-shrink: 0;
+    margin-left: 8px;
+    font-size: 10px;
+}
+
+.ad-row-detail {
+    margin-top: 2px;
+    white-space: normal;
+}
+
+.ad-row-evidence {
+    margin-top: 2px;
+    margin-left: 0;
+}
+
+.ad-row-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
+
+.ad-action {
+    margin: 0 6px 4px 0;
+    padding: 2px 10px;
+}
+
+.ad-action--recommended {
+    -unity-font-style: bold;
+}
+
+/* Footer and plain text buttons */
+
+.ad-footer {
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 6px;
+    padding-top: 4px;
+    border-top-width: 1px;
+    border-top-color: var(--unity-colors-helpbox-border);
+}
+
+.ad-build-file {
+    margin-top: 4px;
+    font-size: 11px;
+    white-space: normal;
+}
+
+.ad-link {
+    margin: 0 0 0 4px;
+    padding: 2px 8px;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+}
+
+/* Gradle log tab */
+
+.ad-hint {
+    margin-bottom: 4px;
+    white-space: normal;
+}
+
+.ad-log-input {
+    min-height: 110px;
+    margin-bottom: 4px;
+}
+
+.ad-button-row {
+    flex-direction: row;
+    margin-bottom: 4px;
+}
+
+.ad-button-row > Button {
+    flex-grow: 1;
+    margin: 0 4px 0 0;
+}
+
+.ad-message {
+    margin: 4px 0;
+    white-space: normal;
+}

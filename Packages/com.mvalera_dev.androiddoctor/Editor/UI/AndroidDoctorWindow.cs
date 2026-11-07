@@ -3,26 +3,22 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using AndroidDoctor.Project;
 
 namespace AndroidDoctor.UI
 {
     /// <summary>
-    /// Window > Android Doctor. Two tabs: Checks (run the rules, read the findings, fix, scan a build, copy a report)
-    /// and Gradle log (explain a failed build). Nothing runs until the user asks.
+    /// Window > Android Doctor. The Checks tab looks at the project and the last build and offers the fixes; the
+    /// Gradle log tab explains a log you paste. Nothing runs until the user asks.
     /// </summary>
     public sealed class AndroidDoctorWindow : EditorWindow
     {
         static readonly TimeSpan ScanTimeBudget = TimeSpan.FromSeconds(30);
 
-        Label _subheader;
-        Label _buildFile;
         Button _checksTab, _gradleTab;
-        VisualElement _checksToolbar;
         ChecksPanel _checks;
         GradleLogPanel _gradle;
 
-        // Null until the first run: Copy report needs a run to have happened.
+        // Null until the first run: Fix all and Copy report need a run to have happened.
         List<Finding> _lastFindings;
 
         [MenuItem("Window/Android Doctor")]
@@ -36,67 +32,46 @@ namespace AndroidDoctor.UI
         public void CreateGUI()
         {
             var root = rootVisualElement;
-            root.style.paddingLeft = root.style.paddingRight = 8;
-            root.style.paddingTop = root.style.paddingBottom = 8;
+            UiStyles.Apply(root);
+            root.AddToClassList("ad-root");
 
             var package = UnityEditor.PackageManager.PackageInfo.FindForAssembly(typeof(AndroidDoctorWindow).Assembly);
-            var header = new Label(Messages.Get("ui.header", package != null ? package.version : "dev"));
-            header.style.unityFontStyleAndWeight = FontStyle.Bold;
-            header.style.fontSize = 14;
+            var header = new VisualElement();
+            header.AddToClassList("ad-header");
+            var title = new Label(Messages.Get("ui.window.title"));
+            title.AddToClassList("ad-title");
+            var version = new Label(package != null ? package.version : "dev");
+            version.AddToClassList("ad-version");
+            version.AddToClassList("ad-muted");
+            header.Add(title);
+            header.Add(version);
             root.Add(header);
-            _subheader = new Label();
-            root.Add(_subheader);
-            RefreshSubheader();
 
-            // Tabs.
             var tabs = new VisualElement();
-            tabs.style.flexDirection = FlexDirection.Row;
-            tabs.style.marginTop = 6;
+            tabs.AddToClassList("ad-tabs");
             _checksTab = new Button(() => SelectTab(true)) { text = Messages.Get("ui.tab.checks") };
             _gradleTab = new Button(() => SelectTab(false)) { text = Messages.Get("ui.tab.gradle") };
-            _checksTab.style.flexGrow = 1;
-            _gradleTab.style.flexGrow = 1;
+            _checksTab.AddToClassList("ad-tab");
+            _gradleTab.AddToClassList("ad-tab");
             tabs.Add(_checksTab);
             tabs.Add(_gradleTab);
             root.Add(tabs);
 
-            // Checks toolbar: Run checks, Scan build, Copy report.
-            _checksToolbar = new VisualElement();
-            _checksToolbar.style.flexDirection = FlexDirection.Row;
-            _checksToolbar.style.marginTop = 4;
-            _checksToolbar.Add(Grow(new Button(RunChecks) { text = Messages.Get("ui.run") }));
-            _checksToolbar.Add(Grow(new Button(ScanBuild) { text = Messages.Get("ui.scanBuild") }));
-            _checksToolbar.Add(Grow(new Button(CopyReport) { text = Messages.Get("ui.copyReport") }));
-            root.Add(_checksToolbar);
-
-            _buildFile = new Label();
-            _buildFile.style.display = DisplayStyle.None;
-            root.Add(_buildFile);
-
-            _checks = new ChecksPanel(ApplyFix, Notify);
-            _gradle = new GradleLogPanel(Notify);
+            _checks = new ChecksPanel(ApplyFix, Notify, RunChecks, FixAll, ScanBuild, CopyReport);
+            _gradle = new GradleLogPanel(Notify, ApplyFix);
             root.Add(_checks);
             root.Add(_gradle);
             SelectTab(true);
         }
-
-        static Button Grow(Button b) { b.style.flexGrow = 1; return b; }
 
         void Notify(string message) => ShowNotification(new GUIContent(message));
 
         void SelectTab(bool checks)
         {
             _checks.style.display = checks ? DisplayStyle.Flex : DisplayStyle.None;
-            _checksToolbar.style.display = checks ? DisplayStyle.Flex : DisplayStyle.None;
             _gradle.style.display = checks ? DisplayStyle.None : DisplayStyle.Flex;
-            _checksTab.style.unityFontStyleAndWeight = checks ? FontStyle.Bold : FontStyle.Normal;
-            _gradleTab.style.unityFontStyleAndWeight = checks ? FontStyle.Normal : FontStyle.Bold;
-        }
-
-        void RefreshSubheader()
-        {
-            _subheader.text = Messages.Get("ui.subheader", Application.unityVersion,
-                TargetApiResolver.Format((int)PlayerSettings.Android.targetSdkVersion));
+            _checksTab.EnableInClassList("ad-tab--selected", checks);
+            _gradleTab.EnableInClassList("ad-tab--selected", !checks);
         }
 
         // Lets the user pick an APK or AAB by hand; the checks then include the build libraries (BLD001).
@@ -113,9 +88,6 @@ namespace AndroidDoctor.UI
             try
             {
                 var ctx = RuleContext.Create();
-                _buildFile.style.display = ctx.ArtifactPath == null ? DisplayStyle.None : DisplayStyle.Flex;
-                if (ctx.ArtifactPath != null) _buildFile.text = Messages.Get("ui.build.current", ctx.ArtifactPath);
-
                 var rules = RuleRunner.DiscoverRules();
                 List<Finding> findings;
                 try
@@ -127,7 +99,7 @@ namespace AndroidDoctor.UI
                 finally { EditorUtility.ClearProgressBar(); } // an exception must never leave the bar stuck
 
                 _lastFindings = findings;
-                RefreshSubheader();
+                _checks.ShowBuildFile(ctx.ArtifactPath);
                 _checks.Show(findings);
             }
             catch (Exception e)
@@ -149,10 +121,18 @@ namespace AndroidDoctor.UI
             catch (Exception e) { _checks.ShowInternalError(e); }
         }
 
-        void ApplyFix(Finding finding)
+        void FixAll()
         {
             string message;
-            bool applied = FixFlow.Run(finding, out message);
+            bool applied = FixFlow.RunAll(_lastFindings, out message);
+            if (message != null) Notify(message);
+            if (applied) RunChecks();
+        }
+
+        void ApplyFix(Finding finding, FixAction action)
+        {
+            string message;
+            bool applied = FixFlow.Run(finding, action, out message);
             if (message != null) Notify(message);
             if (applied) RunChecks(); // run again so the finding disappears
         }

@@ -37,7 +37,19 @@ namespace AndroidDoctor.Tests
             ctx.Tools.Jdk = TestContexts.Tool("Z:/does/not/exist/jdk", ToolSource.Custom);
             var f = JdkRule.Evaluate(ctx).Single();
             Assert.AreEqual(Severity.Error, f.Severity);
-            Assert.AreEqual("FIX_OPEN_EXTERNAL_TOOLS", f.FixId);
+            Assert.AreEqual("FIX_UNITY_TOOLS", f.FixId, "a custom JDK that is missing is put back to Unity's own");
+            Assert.AreEqual("jdk", f.Actions[0].Arg);
+            Assert.IsTrue(f.Actions[0].AllInOne);
+            Assert.AreEqual("FIX_OPEN_EXTERNAL_TOOLS", f.Actions[1].FixId, "and the user can still go and look");
+        }
+
+        [Test] public void Env002_MissingEmbeddedJdk_OnlyOffersToOpenThePreferences()
+        {
+            var ctx = TestContexts.Create();
+            ctx.Tools.Jdk = TestContexts.Tool("Z:/does/not/exist/jdk", ToolSource.Embedded);
+            var f = JdkRule.Evaluate(ctx).Single();
+            Assert.AreEqual("FIX_OPEN_EXTERNAL_TOOLS", f.FixId, "switching to Unity's own tool changes nothing when it is the broken one");
+            Assert.AreEqual(1, f.Actions.Count);
         }
 
         [Test] public void Env002_CustomJdkOfAnotherMajor_IsWarning()

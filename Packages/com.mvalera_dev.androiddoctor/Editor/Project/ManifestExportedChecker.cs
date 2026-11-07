@@ -9,6 +9,8 @@ namespace AndroidDoctor.Project
         public string Tag;   // "activity", "service" or "receiver"
         public string Name;  // android:name, or "" if absent
         public int Line;     // 1-based line of the element, 0 if unknown
+        public bool SuggestedExported; // the value a fix would write
+        public string Reason;          // "launcher", "external" or "private": why that value
     }
 
     /// <summary>
@@ -37,14 +39,44 @@ namespace AndroidDoctor.Project
                 if (element.Element("intent-filter") == null) continue;
 
                 var lineInfo = (IXmlLineInfo)element;
-                result.Add(new ManifestComponent
+                var component = new ManifestComponent
                 {
                     Tag = element.Name.LocalName,
                     Name = (string)element.Attribute(Android + "name") ?? "",
                     Line = lineInfo.HasLineInfo() ? lineInfo.LineNumber : 0,
-                });
+                };
+                Suggest(element, component);
+                result.Add(component);
             }
             return result;
+        }
+
+        /// <summary>
+        /// Picks android:exported for a component. The launcher activity must be exported. Any other activity with an
+        /// intent filter is meant to be opened from outside (links, shares). A service or receiver is exported only if
+        /// it answers an action that is not a system one ("android.*"); system broadcasts reach it either way.
+        /// </summary>
+        static void Suggest(XElement element, ManifestComponent component)
+        {
+            var actions = new List<string>();
+            var categories = new List<string>();
+            foreach (var filter in element.Elements("intent-filter"))
+            {
+                foreach (var a in filter.Elements("action")) actions.Add((string)a.Attribute(Android + "name") ?? "");
+                foreach (var c in filter.Elements("category")) categories.Add((string)c.Attribute(Android + "name") ?? "");
+            }
+
+            if (actions.Contains("android.intent.action.MAIN") && categories.Contains("android.intent.category.LAUNCHER"))
+            {
+                component.SuggestedExported = true; component.Reason = "launcher"; return;
+            }
+            if (component.Tag == "activity")
+            {
+                component.SuggestedExported = true; component.Reason = "external"; return;
+            }
+            bool custom = actions.Exists(a => a.Length > 0 && !a.StartsWith("android."));
+            component.SuggestedExported = custom;
+            component.Reason = custom ? "external" : "private";
         }
     }
 }

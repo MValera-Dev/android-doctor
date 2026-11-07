@@ -28,6 +28,8 @@ namespace AndroidDoctor.Gradle
         {
             // Failed to apply the Android plugin while ANDROID_SDK_HOME is set (explains the root cause, so it goes first).
             new GradlePattern("GRD015", 5, @"Failed to apply plugin 'com\.android\.[\w.]+'", requiredEnvVar: "ANDROID_SDK_HOME"),
+            // A setting the Android Gradle plugin removed (seen with android.enableDexingArtifactTransform on Unity 6000.6).
+            new GradlePattern("GRD021", 10, "The option '(android[.][A-Za-z0-9_.]+)' is deprecated[.](?s:.*?)removed in version ([0-9.]+) of the Android Gradle plugin"),
             new GradlePattern("GRD003", 10, @"Failed to find Platform SDK with path: platforms;android-(\d+(?:\.\d+)?)",
                 commandTemplate: "sdkmanager \"platforms;android-{0}\""),
             new GradlePattern("GRD004", 10, @"Failed to find Build Tools revision ([\d.]+)",

@@ -19,7 +19,8 @@ namespace AndroidDoctor.Project
             if (useCustomKeystore || developmentBuild) yield break;
             yield return new Finding("PRJ008", Category.Project, Severity.Warning,
                 Messages.Get("PRJ008.title"), Messages.Get("PRJ008.detail"),
-                new[] { Messages.Get("PRJ008.evidence.keystore"), Messages.Get("PRJ008.evidence.development") });
+                new[] { Messages.Get("PRJ008.evidence.keystore"), Messages.Get("PRJ008.evidence.development") },
+                actions: new[] { new FixAction(FixIds.OpenPlayerSettings, Messages.Get("ui.openPlayerSettings"), "Project/Player") });
         }
     }
 }

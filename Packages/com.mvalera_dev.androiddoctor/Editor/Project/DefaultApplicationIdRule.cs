@@ -16,7 +16,8 @@ namespace AndroidDoctor.Project
             {
                 yield return new Finding(Id, Category, Severity.Warning,
                     Messages.Get("PRJ009.title"), Messages.Get("PRJ009.detail"),
-                    new[] { Messages.Get("PRJ009.evidence", id) });
+                    new[] { Messages.Get("PRJ009.evidence", id) },
+                    actions: new[] { new FixAction(FixIds.OpenPlayerSettings, Messages.Get("ui.openPlayerSettings"), "Project/Player") });
             }
         }
     }
