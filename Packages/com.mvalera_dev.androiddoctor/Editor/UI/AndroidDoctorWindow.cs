@@ -3,22 +3,35 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using AndroidDoctor.Project;
 
 namespace AndroidDoctor.UI
 {
-    /// <summary>Minimal window: a Run checks button and one label per finding (rule id + title).</summary>
+    /// <summary>
+    /// Window > Android Doctor. Two tabs: Checks (run the rules, read the findings, fix, scan a build, copy a report)
+    /// and Gradle log (explain a failed build). Nothing runs until the user asks.
+    /// </summary>
     public sealed class AndroidDoctorWindow : EditorWindow
     {
-        Label _summary;
+        static readonly TimeSpan ScanTimeBudget = TimeSpan.FromSeconds(30);
+
+        Label _subheader;
         Label _buildFile;
-        VisualElement _results;
+        Button _checksTab, _gradleTab;
+        VisualElement _checksToolbar;
+        ChecksPanel _checks;
+        GradleLogPanel _gradle;
+
+        // What the last run found and what the machine looked like then, for Copy report.
+        List<Finding> _lastFindings;
+        ReportEnvironment _lastEnvironment;
 
         [MenuItem("Window/Android Doctor")]
         public static void Open()
         {
             var window = GetWindow<AndroidDoctorWindow>();
             window.titleContent = new GUIContent(Messages.Get("ui.window.title"));
-            window.minSize = new Vector2(420, 300);
+            window.minSize = new Vector2(460, 360);
         }
 
         public void CreateGUI()
@@ -32,32 +45,59 @@ namespace AndroidDoctor.UI
             header.style.unityFontStyleAndWeight = FontStyle.Bold;
             header.style.fontSize = 14;
             root.Add(header);
-            root.Add(new Label(Messages.Get("ui.subheader", Application.unityVersion)));
+            _subheader = new Label();
+            root.Add(_subheader);
+            RefreshSubheader();
 
-            var buttons = new VisualElement();
-            buttons.style.flexDirection = FlexDirection.Row;
-            buttons.style.marginTop = 6;
-            buttons.style.marginBottom = 6;
-            var run = new Button(RunChecks) { text = Messages.Get("ui.run") };
-            run.style.flexGrow = 1;
-            var scanBuild = new Button(ScanBuild) { text = Messages.Get("ui.scanBuild") };
-            scanBuild.style.flexGrow = 1;
-            buttons.Add(run);
-            buttons.Add(scanBuild);
-            root.Add(buttons);
+            // Tabs.
+            var tabs = new VisualElement();
+            tabs.style.flexDirection = FlexDirection.Row;
+            tabs.style.marginTop = 6;
+            _checksTab = new Button(() => SelectTab(true)) { text = Messages.Get("ui.tab.checks") };
+            _gradleTab = new Button(() => SelectTab(false)) { text = Messages.Get("ui.tab.gradle") };
+            _checksTab.style.flexGrow = 1;
+            _gradleTab.style.flexGrow = 1;
+            tabs.Add(_checksTab);
+            tabs.Add(_gradleTab);
+            root.Add(tabs);
+
+            // Checks toolbar: Run checks, Scan build, Copy report.
+            _checksToolbar = new VisualElement();
+            _checksToolbar.style.flexDirection = FlexDirection.Row;
+            _checksToolbar.style.marginTop = 4;
+            _checksToolbar.Add(Grow(new Button(RunChecks) { text = Messages.Get("ui.run") }));
+            _checksToolbar.Add(Grow(new Button(ScanBuild) { text = Messages.Get("ui.scanBuild") }));
+            _checksToolbar.Add(Grow(new Button(CopyReport) { text = Messages.Get("ui.copyReport") }));
+            root.Add(_checksToolbar);
 
             _buildFile = new Label();
             _buildFile.style.display = DisplayStyle.None;
             root.Add(_buildFile);
 
-            _summary = new Label(Messages.Get("ui.idle"));
-            root.Add(_summary);
+            _checks = new ChecksPanel(ApplyFix, Notify);
+            _gradle = new GradleLogPanel(Notify);
+            root.Add(_checks);
+            root.Add(_gradle);
+            SelectTab(true);
+        }
 
-            var scroll = new ScrollView();
-            scroll.style.flexGrow = 1;
-            scroll.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
-            _results = scroll;
-            root.Add(scroll);
+        static Button Grow(Button b) { b.style.flexGrow = 1; return b; }
+
+        void Notify(string message) => ShowNotification(new GUIContent(message));
+
+        void SelectTab(bool checks)
+        {
+            _checks.style.display = checks ? DisplayStyle.Flex : DisplayStyle.None;
+            _checksToolbar.style.display = checks ? DisplayStyle.Flex : DisplayStyle.None;
+            _gradle.style.display = checks ? DisplayStyle.None : DisplayStyle.Flex;
+            _checksTab.style.unityFontStyleAndWeight = checks ? FontStyle.Bold : FontStyle.Normal;
+            _gradleTab.style.unityFontStyleAndWeight = checks ? FontStyle.Normal : FontStyle.Bold;
+        }
+
+        void RefreshSubheader()
+        {
+            _subheader.text = Messages.Get("ui.subheader", Application.unityVersion,
+                TargetApiResolver.Format((int)PlayerSettings.Android.targetSdkVersion));
         }
 
         // Lets the user pick an APK or AAB by hand; the checks then include the build libraries (BLD001).
@@ -71,77 +111,47 @@ namespace AndroidDoctor.UI
 
         void RunChecks()
         {
-            _results.Clear();
             try
             {
                 var ctx = RuleContext.Create();
                 _buildFile.style.display = ctx.ArtifactPath == null ? DisplayStyle.None : DisplayStyle.Flex;
                 if (ctx.ArtifactPath != null) _buildFile.text = Messages.Get("ui.build.current", ctx.ArtifactPath);
+
                 var rules = RuleRunner.DiscoverRules();
                 List<Finding> findings;
                 try
                 {
                     findings = RuleRunner.RunAll(rules, ctx,
-                        (progress, ruleId) => EditorUtility.DisplayProgressBar(Messages.Get("ui.progress.title"), ruleId, progress));
+                        (progress, ruleId) => EditorUtility.DisplayProgressBar(Messages.Get("ui.progress.title"), ruleId, progress),
+                        ScanTimeBudget);
                 }
-                finally { EditorUtility.ClearProgressBar(); }
-                ShowFindings(findings);
+                finally { EditorUtility.ClearProgressBar(); } // an exception must never leave the bar stuck
+
+                _lastFindings = findings;
+                _lastEnvironment = ReportEnvironmentReader.Capture(ctx);
+                RefreshSubheader();
+                _checks.Show(findings);
             }
-            catch (Exception e) { ShowInternalError(e); }
+            catch (Exception e)
+            {
+                _lastFindings = null;
+                _checks.ShowInternalError(e);
+            }
         }
 
-        void ShowFindings(List<Finding> findings)
+        void CopyReport()
         {
-            int errors = 0, warnings = 0, infos = 0;
-            foreach (var f in findings)
-            {
-                if (f.Severity == Severity.Error) errors++;
-                else if (f.Severity == Severity.Warning) warnings++;
-                else infos++;
-                _results.Add(CreateRow(f));
-            }
-            _summary.text = findings.Count == 0
-                ? Messages.Get("ui.noFindings")
-                : Messages.Get("ui.summary", errors, warnings, infos);
-        }
-
-        VisualElement CreateRow(Finding finding)
-        {
-            var row = new VisualElement();
-            row.style.flexDirection = FlexDirection.Row;
-            row.style.alignItems = Align.Center;
-
-            // The label takes the free width and wraps; the button keeps its size instead of being pushed out.
-            var label = new Label(finding.RuleId + "  " + finding.Title);
-            label.style.flexGrow = 1;
-            label.style.flexShrink = 1;
-            label.style.flexBasis = 0;
-            label.style.whiteSpace = WhiteSpace.Normal;
-            row.Add(label);
-
-            if (!string.IsNullOrEmpty(finding.FixId) && FixRegistry.Get(finding.FixId) != null)
-            {
-                var button = new Button(() => ApplyFix(finding)) { text = finding.FixLabel ?? Messages.Get("ui.fix") };
-                button.style.flexShrink = 0;
-                row.Add(button);
-            }
-            return row;
+            if (_lastFindings == null) { Notify(Messages.Get("ui.copyReport.first")); return; }
+            EditorGUIUtility.systemCopyBuffer = ReportBuilder.Build(_lastEnvironment, _lastFindings);
+            Notify(Messages.Get("ui.copyReport.done"));
         }
 
         void ApplyFix(Finding finding)
         {
             string message;
             bool applied = FixFlow.Run(finding, out message);
-            if (message != null) ShowNotification(new GUIContent(message));
+            if (message != null) Notify(message);
             if (applied) RunChecks(); // run again so the finding disappears
-        }
-
-        void ShowInternalError(Exception e)
-        {
-            _summary.text = Messages.Get("ui.error.title");
-            _results.Add(new Label(e.GetType().Name + ": " + e.Message));
-            _results.Add(new Button(() => EditorGUIUtility.systemCopyBuffer = e.ToString())
-            { text = Messages.Get("ui.error.copy") });
         }
     }
 }
