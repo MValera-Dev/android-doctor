@@ -4,17 +4,19 @@ Finds why your Unity Android build fails or gets rejected by Google Play, and fi
 
 ![Android Doctor: two problems, Fix all, ready to build](Docs/media/android-doctor.gif)
 
-Free, open source (MIT). One window: **Window > Android Doctor**.
+**[Get Android Doctor on itch.io](https://valeradev.itch.io/android-doctor)**: pay what you want. The download, the devlog and the comments live there.
+
+Open source (MIT). One window: **Window > Android Doctor**.
 
 ## Install
 
-Window > Package Manager > + > Add package from git URL…
+**From itch.io (recommended).** Download the zip from [valeradev.itch.io/android-doctor](https://valeradev.itch.io/android-doctor), unzip it, and in Unity use Window > Package Manager > + > Add package from disk… on the `package.json` inside.
+
+**From source.** Window > Package Manager > + > Add package from git URL…
 
 ```text
 https://github.com/MValera-Dev/android-doctor.git?path=/Packages/com.mvalera_dev.androiddoctor
 ```
-
-Or download the `.zip` of the package from the GitHub Releases page, unzip it, and use *Add package from disk…* on its `package.json`.
 
 ## How to use it
 
