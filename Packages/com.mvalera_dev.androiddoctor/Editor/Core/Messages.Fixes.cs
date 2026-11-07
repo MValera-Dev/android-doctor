@@ -109,6 +109,8 @@ namespace AndroidDoctor
             { "fix.gradleProps.done", "Updated {0} setting(s) in {1}. Original saved in {2}." },
 
             // Gradle errors
+            { "GRD021.title", "Gradle no longer accepts the setting {0}" },
+            { "GRD021.detail", "Your gradleTemplate.properties still sets {0}, which the Android Gradle plugin removed in version {1}. Unity 6 uses a newer plugin, so the build stops." },
             { "GRD006.off", "Turn off {0}" },
             { "GRD006.resolver", "Reset the Android Resolver (EDM4U)" },
             { "GRD011.fix", "Set the minimum API level to {0}" },
@@ -216,6 +218,8 @@ namespace AndroidDoctor
             { "fix.gradleProps.nothing", "{0} no tiene nada que cambiar." },
             { "fix.gradleProps.done", "Actualizados {0} ajuste(s) en {1}. Original guardado en {2}." },
 
+            { "GRD021.title", "Gradle ya no acepta el ajuste {0}" },
+            { "GRD021.detail", "Tu gradleTemplate.properties todavía define {0}, que el plugin de Android Gradle retiró en la versión {1}. Unity 6 usa un plugin más nuevo, así que el build se para." },
             { "GRD006.off", "Desactivar {0}" },
             { "GRD006.resolver", "Reiniciar el Android Resolver (EDM4U)" },
             { "GRD011.fix", "Poner el API level mínimo en {0}" },

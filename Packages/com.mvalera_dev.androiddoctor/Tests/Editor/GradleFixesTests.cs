@@ -17,7 +17,9 @@ namespace AndroidDoctor.Tests
             public List<string> Templates = new List<string>();
             public HashSet<string> CustomTools = new HashSet<string>();
             public bool Resolver;
+            public bool Removed;
             public List<string> LastCandidates;
+            public override bool HasRemovedGradleProperties() => Removed;
 
             public override List<string> FindLibraries(IList<string> candidates) { LastCandidates = candidates.ToList(); return Libraries; }
             public override List<string> FindNativeLibraries(string fileName) => Natives;
@@ -47,6 +49,22 @@ namespace AndroidDoctor.Tests
             Assert.AreEqual(FixIds.MinApi, f.Actions.Single().FixId);
             Assert.AreEqual("30", f.Actions[0].Arg, "the log says the library declares 30");
             Assert.IsTrue(f.Actions[0].AllInOne);
+        }
+
+        [Test] public void Grd021_ARemovedGradleSetting_IsNamedFromTheRealLog_AndRewritten()
+        {
+            var f = Translate("GRD021_1", new FakeProject { Removed = true });
+            Assert.AreEqual("GRD021", f.RuleId);
+            StringAssert.Contains("android.enableDexingArtifactTransform", f.Title);
+            StringAssert.Contains("8.3", f.Detail);
+            Assert.AreEqual(FixIds.GradleProperties, f.Actions[0].FixId);
+            Assert.IsTrue(f.Actions[0].AllInOne);
+            Assert.AreEqual(FixIds.ResetTemplates, f.Actions[1].FixId);
+        }
+
+        [Test] public void Grd021_WhenTheProjectNoLongerSetsIt_HasNoButton()
+        {
+            Assert.AreEqual(0, Translate("GRD021_1", new FakeProject()).Actions.Count);
         }
 
         [Test] public void Grd015_SdkHome_IsIgnoredForTheSession()

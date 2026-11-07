@@ -72,6 +72,15 @@ namespace AndroidDoctor.Gradle
                 .Where(p => File.Exists(Path.Combine(ProjectPath, p))).ToList();
         }
 
+        /// <summary>True when gradleTemplate.properties still sets a property the Android Gradle plugin removed.</summary>
+        public virtual bool HasRemovedGradleProperties()
+        {
+            string file = Path.Combine(ProjectPath, GradlePropertiesFix.TemplatePath);
+            try { return File.Exists(file) && GradleProperties.FindRemoved(File.ReadAllText(file)).Count > 0; }
+            catch (IOException) { return false; }
+            catch (UnauthorizedAccessException) { return false; }
+        }
+
         /// <summary>True when the External Dependency Manager (EDM4U) is in the project.</summary>
         public virtual bool ResolverAvailable
         {

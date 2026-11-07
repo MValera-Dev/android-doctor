@@ -63,6 +63,14 @@ namespace AndroidDoctor.Gradle
                             string.Join(ResetTemplatesFix.Separator.ToString(), templates)));
                     break;
 
+                case "GRD021": // a removed Gradle property is still set
+                    if (project.HasRemovedGradleProperties())
+                    {
+                        actions.Add(new FixAction(FixIds.GradleProperties, Messages.Get("PRJ010.fix"), GradlePropertiesFix.TemplatePath, true));
+                        actions.Add(new FixAction(FixIds.ResetTemplates, Messages.Get("PRJ010.reset"), GradlePropertiesFix.TemplatePath));
+                    }
+                    break;
+
                 case "GRD015": // ANDROID_SDK_HOME breaks the Android plugin
                     actions.Add(new FixAction(FixIds.ClearEnvironmentVariable, Messages.Get("ENV008.fix", "ANDROID_SDK_HOME"), "ANDROID_SDK_HOME", true));
                     break;
