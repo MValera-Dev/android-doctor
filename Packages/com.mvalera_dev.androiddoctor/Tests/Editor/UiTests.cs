@@ -45,19 +45,44 @@ namespace AndroidDoctor.Tests
             var card = new FindingCard(F(), null);
             Assert.AreEqual("ENV004", card.IdLabel.text);
             Assert.AreEqual("A title", card.TitleLabel.text);
-            Assert.AreEqual(FontStyle.Bold, card.TitleLabel.style.unityFontStyleAndWeight.value);
+            Assert.IsTrue(card.TitleLabel.ClassListContains("ad-row-title"), "bold and wrapping come from the stylesheet");
             Assert.AreEqual("A detail sentence.", card.DetailLabel.text);
-            Assert.AreEqual(WhiteSpace.Normal, card.DetailLabel.style.whiteSpace.value);
+            Assert.IsTrue(card.DetailLabel.ClassListContains("ad-row-detail"));
         }
 
-        [TestCase(Severity.Error, 0xD9, 0x53, 0x4F)]
-        [TestCase(Severity.Warning, 0xE0, 0xA8, 0x00)]
-        [TestCase(Severity.Info, 0x5B, 0x8D, 0xEF)]
-        public void TheLeftBorderIs4pxInTheColourOfTheSeverity(Severity severity, int r, int g, int b)
+        [TestCase(Severity.Error, "ad-error")]
+        [TestCase(Severity.Warning, "ad-warning")]
+        [TestCase(Severity.Info, "ad-info")]
+        public void TheRowCarriesTheClassOfItsSeverity_AndOneIcon(Severity severity, string expected)
         {
             var card = new FindingCard(F(severity), null);
-            Assert.AreEqual(4f, card.style.borderLeftWidth.value);
-            Assert.AreEqual((Color)new Color32((byte)r, (byte)g, (byte)b, 255), card.style.borderLeftColor.value);
+            Assert.IsTrue(card.ClassListContains(expected));
+            Assert.IsTrue(card.ClassListContains("ad-row"));
+            Assert.AreEqual(1, card.Query<Image>().ToList().Count);
+        }
+
+        [Test] public void ARecommendedAction_IsMarkedSoItReadsAsTheOneClickAnswer()
+        {
+            var finding = new Finding("X", Category.Project, Severity.Error, "t", "d", actions: new[]
+            {
+                new FixAction(FixIds.TargetApi, "One click", null, true),
+                new FixAction(FixIds.SelectAsset, "Look first"),
+            });
+            var card = new FindingCard(finding, null);
+            Assert.AreEqual(2, card.ActionButtons.Count);
+            Assert.IsTrue(card.ActionButtons[0].ClassListContains("ad-action--recommended"));
+            Assert.IsFalse(card.ActionButtons[1].ClassListContains("ad-action--recommended"));
+        }
+
+        [Test] public void EveryActionGetsItsOwnButton_AndPressingOneReportsThatAction()
+        {
+            FixAction pressed = null;
+            var first = new FixAction(FixIds.TargetApi, "First", "a");
+            var second = new FixAction(FixIds.TargetApi, "Second", "b");
+            var card = new FindingCard(new Finding("X", Category.Project, Severity.Error, "t", "d", actions: new[] { first, second }),
+                (f, a) => pressed = a);
+            Press(card.ActionButtons[1]);
+            Assert.AreSame(second, pressed);
         }
 
         [Test] public void Evidence_IsInAFoldoutThatStartsClosed_WithSelectableReadOnlyText()
@@ -132,59 +157,144 @@ namespace AndroidDoctor.Tests
             return new Finding(id, category, severity, "Title " + id, "Detail " + id);
         }
 
+        static void PressButton(Button button)
+        {
+            using (var e = NavigationSubmitEvent.GetPooled())
+            {
+                e.target = button;
+                button.SendEvent(e);
+            }
+        }
+
+        // An element outside a panel never receives events, so the panel is hosted in a throw-away editor window.
+        static void WithHost(VisualElement element, System.Action action)
+        {
+            var window = ScriptableObject.CreateInstance<EditorWindow>();
+            try
+            {
+                window.Show();
+                window.rootVisualElement.Add(element);
+                action();
+                element.RemoveFromHierarchy();
+            }
+            finally { window.Close(); }
+        }
+
         [Test] public void StartsIdle_WithoutRunningAnything()
         {
             var panel = new ChecksPanel(null, null);
-            Assert.AreEqual(Messages.Get("ui.idle"), panel.SummaryText);
+            Assert.AreEqual(Messages.Get("ui.verdict.idle.title"), panel.SummaryText);
             Assert.AreEqual(0, panel.Results.Query<FindingCard>().ToList().Count);
+            Assert.AreEqual(Messages.Get("ui.checkProject"), panel.RunButton.text);
+            Assert.AreEqual(DisplayStyle.None, panel.FixAllButton.style.display.value);
         }
 
-        [Test] public void Findings_AreGroupedByCategoryInEnumOrder_WithCounts()
+        [Test] public void Findings_AreGroupedByHowMuchTheyMatter_ErrorsFirst()
         {
             var panel = new ChecksPanel(null, null);
             panel.Show(new List<Finding>
             {
                 F("NAT001", Category.Native, Severity.Error),
-                F("ENV001", Category.Environment, Severity.Error),
-                F("ENV002", Category.Environment, Severity.Warning),
+                F("ENV001", Category.Environment, Severity.Warning),
+                F("ENV002", Category.Environment, Severity.Error),
                 F("PRJ001", Category.Project, Severity.Info),
             });
 
-            var foldouts = panel.Results.Query<Foldout>().Where(f => f.text.Contains("(")).ToList();
-            CollectionAssert.AreEqual(new[]
+            var titles = panel.Results.Query<Label>(className: "ad-group-title").ToList().Select(l => l.text)
+                .Concat(panel.Results.Query<Foldout>(className: "ad-group-title").ToList().Select(f => f.text)).ToList();
+            CollectionAssert.AreEquivalent(new[]
             {
-                Messages.Get("ui.category.Environment") + " (2)",
-                Messages.Get("ui.category.Project") + " (1)",
-                Messages.Get("ui.category.Native") + " (1)",
-            }, foldouts.Select(f => f.text).ToArray());
+                Messages.Get("ui.group.errors", 2), Messages.Get("ui.group.warnings", 1), Messages.Get("ui.group.notes", 1),
+            }, titles);
             Assert.AreEqual(4, panel.Results.Query<FindingCard>().ToList().Count);
+            Assert.AreEqual(Severity.Error, panel.Results.Query<FindingCard>().ToList()[0].Finding.Severity);
         }
 
-        [Test] public void EmptyCategories_AreNotShown()
+        [Test] public void NotesAreFolded_SoTheyDoNotCompeteWithTheProblems()
+        {
+            var panel = new ChecksPanel(null, null);
+            panel.Show(new List<Finding> { F("PRJ004", Category.Project, Severity.Info) });
+            Assert.IsFalse(panel.Results.Q<Foldout>(className: "ad-group-title").value);
+        }
+
+        [Test] public void EmptyGroups_AreNotShown()
         {
             var panel = new ChecksPanel(null, null);
             panel.Show(new List<Finding> { F("ENV001", Category.Environment, Severity.Error) });
-            Assert.AreEqual(1, panel.Results.Query<Foldout>().Where(f => f.text.Contains("(")).ToList().Count);
+            Assert.AreEqual(1, panel.Results.Query<Label>(className: "ad-group-title").ToList().Count);
+            Assert.AreEqual(0, panel.Results.Query<Foldout>(className: "ad-group-title").ToList().Count);
         }
 
-        [Test] public void Summary_CountsEachSeverity_WithSingularAndPlural()
+        [Test] public void TheVerdict_SaysInPlainWordsWhatToExpect()
         {
-            var one = ChecksPanel.Summarize(new List<Finding> { F("A", Category.Project, Severity.Error) });
-            Assert.AreEqual(Messages.Get("ui.errors.one", 1), one);
+            var panel = new ChecksPanel(null, null);
 
-            var mixed = ChecksPanel.Summarize(new List<Finding>
-            {
-                F("A", Category.Project, Severity.Error), F("B", Category.Project, Severity.Error),
-                F("C", Category.Project, Severity.Warning), F("D", Category.Project, Severity.Info),
-            });
-            Assert.AreEqual(Messages.Get("ui.errors.many", 2) + ", " + Messages.Get("ui.warnings.one", 1) + ", " + Messages.Get("ui.infos", 1), mixed);
+            panel.Show(new List<Finding> { F("A", Category.Project, Severity.Error) });
+            Assert.AreEqual(Messages.Get("ui.verdict.error.one"), panel.SummaryText);
+
+            panel.Show(new List<Finding> { F("A", Category.Project, Severity.Error), F("B", Category.Project, Severity.Error) });
+            Assert.AreEqual(Messages.Get("ui.verdict.error.many", 2), panel.SummaryText);
+
+            panel.Show(new List<Finding> { F("C", Category.Project, Severity.Warning) });
+            Assert.AreEqual(Messages.Get("ui.verdict.warn", 1), panel.SummaryText);
+
+            panel.Show(new List<Finding> { F("D", Category.Project, Severity.Info) });
+            Assert.AreEqual(Messages.Get("ui.verdict.ok.title"), panel.SummaryText);
+            Assert.AreEqual(Messages.Get("ui.verdict.ok.notes", 1), panel.DetailText);
         }
 
-        [Test] public void NoFindings_SaysEverythingLooksFine()
+        [Test] public void NoFindings_SaysReadyToBuild()
         {
             var panel = new ChecksPanel(null, null);
             panel.Show(new List<Finding>());
-            Assert.AreEqual(Messages.Get("ui.noFindings"), panel.SummaryText);
+            Assert.AreEqual(Messages.Get("ui.verdict.ok.title"), panel.SummaryText);
+            Assert.AreEqual(Messages.Get("ui.verdict.ok.none"), panel.DetailText);
+            Assert.AreEqual(Messages.Get("ui.checkAgain"), panel.RunButton.text);
+        }
+
+        [Test] public void FixAll_AppearsOnlyWhenSomethingCanBeFixedInOneClick_AndBecomesTheOnePrimaryButton()
+        {
+            var panel = new ChecksPanel(null, null);
+
+            panel.Show(new List<Finding> { F("A", Category.Project, Severity.Error) });
+            Assert.AreEqual(DisplayStyle.None, panel.FixAllButton.style.display.value);
+            Assert.IsTrue(panel.RunButton.ClassListContains("ad-primary"), "with nothing to fix, checking again is the main action");
+            Assert.AreEqual(Messages.Get("ui.verdict.manual"), panel.DetailText);
+
+            var fixable = new Finding("B", Category.Project, Severity.Error, "t", "d",
+                actions: new[] { new FixAction(FixIds.AppBundle, "x", null, true) });
+            panel.Show(new List<Finding> { fixable });
+            Assert.AreEqual(DisplayStyle.Flex, panel.FixAllButton.style.display.value);
+            StringAssert.Contains("1", panel.FixAllButton.text);
+            Assert.IsFalse(panel.RunButton.ClassListContains("ad-primary"), "only one strong button at a time");
+            Assert.AreEqual(Messages.Get("ui.verdict.fixable", 1), panel.DetailText);
+        }
+
+        [Test] public void PressingTheButtons_CallsBack()
+        {
+            bool ran = false, fixedAll = false;
+            var panel = new ChecksPanel(null, null, () => ran = true, () => fixedAll = true);
+            var fixable = new Finding("B", Category.Project, Severity.Error, "t", "d",
+                actions: new[] { new FixAction(FixIds.AppBundle, "x", null, true) });
+            panel.Show(new List<Finding> { fixable });
+
+            WithHost(panel, () =>
+            {
+                PressButton(panel.RunButton);
+                PressButton(panel.FixAllButton);
+            });
+
+            Assert.IsTrue(ran);
+            Assert.IsTrue(fixedAll);
+        }
+
+        [Test] public void TheBuildFileLine_ShowsOnlyWhenThereIsAFile()
+        {
+            var panel = new ChecksPanel(null, null);
+            panel.ShowBuildFile("C:/builds/app.apk");
+            StringAssert.Contains("app.apk", panel.Q<Label>(className: "ad-build-file").text);
+            panel.ShowBuildFile(null);
+            Assert.AreEqual(DisplayStyle.None, panel.Q<Label>(className: "ad-build-file").style.display.value);
         }
 
         [Test] public void AnInternalError_ShowsOneMessageAndACopyButton()
@@ -222,7 +332,7 @@ namespace AndroidDoctor.Tests
             var cards = panel.Results.Query<FindingCard>().ToList();
             Assert.AreEqual(1, cards.Count);
             Assert.AreEqual("GRD006", cards[0].Finding.RuleId);
-            Assert.IsNull(cards[0].FixButton, "Gradle problems are fixed by hand: no fix buttons");
+            Assert.IsNull(cards[0].FixButton, "no library in this project matches the log, so there is nothing to press rather than a guess");
 
             var original = panel.Results.Query<Foldout>().Where(f => f.text == Messages.Get("ui.gradle.original")).First();
             Assert.IsFalse(original.value, "the original block is folded by default");

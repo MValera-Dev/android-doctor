@@ -12,48 +12,45 @@ namespace AndroidDoctor.UI
         readonly Label _message;
         readonly VisualElement _results;
         readonly Action<string> _notify;
+        readonly Action<Finding, FixAction> _onFix;
 
         public TextField Input => _input;
         public VisualElement Results => _results;
         public string MessageText => _message.text;
 
-        public GradleLogPanel(Action<string> notify)
+        /// <param name="onFix">Called when a fix button of a finding is pressed. May be null.</param>
+        public GradleLogPanel(Action<string> notify, Action<Finding, FixAction> onFix = null)
         {
             _notify = notify;
+            _onFix = onFix;
+            UiStyles.Apply(this);
             style.flexGrow = 1;
 
             var hint = new Label(Messages.Get("ui.gradle.hint"));
-            hint.style.whiteSpace = WhiteSpace.Normal;
-            hint.style.marginTop = 4;
+            hint.AddToClassList("ad-hint");
             Add(hint);
 
             _input = new TextField { multiline = true };
-            _input.style.minHeight = 100;
-            _input.style.maxHeight = 160;
-            _input.style.marginTop = 4;
+            _input.AddToClassList("ad-log-input");
             Add(_input);
 
             var buttons = new VisualElement();
-            buttons.style.flexDirection = FlexDirection.Row;
-            buttons.style.marginTop = 4;
-            buttons.style.marginBottom = 4;
-            buttons.Add(Grow(new Button(AnalyzePasted) { text = Messages.Get("ui.gradle.analyzePasted") }));
-            buttons.Add(Grow(new Button(AnalyzeLastBuild) { text = Messages.Get("ui.gradle.analyzeLast") }));
-            buttons.Add(Grow(new Button(UseCaptured) { text = Messages.Get("ui.gradle.useCaptured") }));
+            buttons.AddToClassList("ad-button-row");
+            buttons.Add(new Button(AnalyzePasted) { text = Messages.Get("ui.gradle.analyzePasted") });
+            buttons.Add(new Button(AnalyzeLastBuild) { text = Messages.Get("ui.gradle.analyzeLast") });
+            buttons.Add(new Button(UseCaptured) { text = Messages.Get("ui.gradle.useCaptured") });
             Add(buttons);
 
             _message = new Label();
-            _message.style.whiteSpace = WhiteSpace.Normal;
+            _message.AddToClassList("ad-message");
             Add(_message);
 
             var scroll = new ScrollView();
-            scroll.style.flexGrow = 1;
+            scroll.AddToClassList("ad-results");
             scroll.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
             _results = scroll;
             Add(scroll);
         }
-
-        static Button Grow(Button b) { b.style.flexGrow = 1; return b; }
 
         public void AnalyzePasted() => Show(GradleLogParser.Extract(_input.value), "ui.gradle.notFound");
 
@@ -74,7 +71,7 @@ namespace AndroidDoctor.UI
 
             // The probable causes first, as cards. They never have fix buttons: Gradle problems are fixed by hand.
             foreach (var finding in GradleTranslator.Translate(error))
-                _results.Add(new FindingCard(finding, null, _notify));
+                _results.Add(new FindingCard(finding, _onFix, _notify));
 
             // The original block is always there, folded, in case nothing matched or the explanation is not enough.
             var original = new Foldout { text = Messages.Get("ui.gradle.original"), value = false };

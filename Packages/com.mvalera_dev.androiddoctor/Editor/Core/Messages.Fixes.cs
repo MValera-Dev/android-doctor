@@ -8,6 +8,24 @@ namespace AndroidDoctor
     {
         static readonly Dictionary<string, string> EnFixes = new Dictionary<string, string>
         {
+            // Window
+            { "ui.checkProject", "Check project" },
+            { "ui.checkAgain", "Check again" },
+            { "ui.verdict.idle.title", "Check your project" },
+            { "ui.verdict.idle.sub", "Looks at your Android setup, your Player Settings and your last build. Nothing is changed until you say so." },
+            { "ui.verdict.error.one", "1 problem will stop your build" },
+            { "ui.verdict.error.many", "{0} problems will stop your build" },
+            { "ui.verdict.fixable", "{0} can be fixed with one click." },
+            { "ui.verdict.manual", "These need a decision from you." },
+            { "ui.verdict.alsoWarnings", "{0} more worth fixing." },
+            { "ui.verdict.warn", "Ready to build, but {0} thing(s) are worth fixing" },
+            { "ui.verdict.ok.title", "Ready to build" },
+            { "ui.verdict.ok.none", "No problems found." },
+            { "ui.verdict.ok.notes", "{0} note(s) for your information." },
+            { "ui.group.errors", "Stops your build ({0})" },
+            { "ui.group.warnings", "Worth fixing ({0})" },
+            { "ui.group.notes", "Notes ({0})" },
+
             // Fix all
             { "fix.all.header", "Android Doctor will make {0} change(s):" },
             { "fix.all.failed", "Could not apply:" },
@@ -108,6 +126,23 @@ namespace AndroidDoctor
 
         static readonly Dictionary<string, string> EsFixes = new Dictionary<string, string>
         {
+            { "ui.checkProject", "Revisar proyecto" },
+            { "ui.checkAgain", "Revisar otra vez" },
+            { "ui.verdict.idle.title", "Revisa tu proyecto" },
+            { "ui.verdict.idle.sub", "Mira tu configuración de Android, los Player Settings y tu último build. No se cambia nada hasta que tú lo digas." },
+            { "ui.verdict.error.one", "1 problema va a parar tu build" },
+            { "ui.verdict.error.many", "{0} problemas van a parar tu build" },
+            { "ui.verdict.fixable", "{0} se pueden arreglar con un clic." },
+            { "ui.verdict.manual", "Esto necesita una decisión tuya." },
+            { "ui.verdict.alsoWarnings", "Y {0} más que conviene arreglar." },
+            { "ui.verdict.warn", "Listo para compilar, pero conviene arreglar {0} cosa(s)" },
+            { "ui.verdict.ok.title", "Listo para compilar" },
+            { "ui.verdict.ok.none", "No se han encontrado problemas." },
+            { "ui.verdict.ok.notes", "{0} nota(s) informativa(s)." },
+            { "ui.group.errors", "Paran tu build ({0})" },
+            { "ui.group.warnings", "Conviene arreglar ({0})" },
+            { "ui.group.notes", "Notas ({0})" },
+
             { "fix.all.header", "Android Doctor va a hacer {0} cambio(s):" },
             { "fix.all.failed", "No se pudo aplicar:" },
             { "fix.all.done", "Aplicados {0} de {1} cambio(s)." },
