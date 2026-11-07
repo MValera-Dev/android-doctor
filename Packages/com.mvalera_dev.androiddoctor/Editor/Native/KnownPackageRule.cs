@@ -34,7 +34,19 @@ namespace AndroidDoctor.Native
 
             yield return new Finding(Id, Category.Native, ParseSeverity(known.severity),
                 Messages.Get(Id + ".title", installed.Version, known.minVersion),
-                Messages.Get(Id + ".detail", installed.Name), evidence);
+                Messages.Get(Id + ".detail", installed.Name), evidence,
+                actions: PackageActions(installed.Name));
+        }
+
+        /// <summary>
+        /// A package from Unity's own registry can be updated in one click. Any other (Google's App Bundle package comes
+        /// from another registry) is opened in Package Manager, because Unity cannot be asked to fetch it by name.
+        /// </summary>
+        static FixAction[] PackageActions(string name)
+        {
+            if (name.StartsWith("com.unity.", StringComparison.Ordinal))
+                return new[] { new FixAction(FixIds.UpdatePackage, Messages.Get("known.fix.update"), name, true) };
+            return new[] { new FixAction(FixIds.OpenPackage, Messages.Get("known.fix.open"), name) };
         }
 
         static Severity ParseSeverity(string text)
