@@ -518,10 +518,33 @@ namespace AndroidDoctor
             { "ui.error.copy", "Copiar error" },
         };
 
+        static int _englishScopes;
+
+        /// <summary>
+        /// While the returned scope is alive every text comes out in English, whatever the system language is.
+        /// Used for text that leaves the Editor, such as the report pasted in a forum or an issue.
+        /// </summary>
+        public static System.IDisposable English()
+        {
+            _englishScopes++;
+            return new EnglishScope();
+        }
+
+        sealed class EnglishScope : System.IDisposable
+        {
+            bool _disposed;
+            public void Dispose()
+            {
+                if (_disposed) return;
+                _disposed = true;
+                _englishScopes--;
+            }
+        }
+
         public static string Get(string key, params object[] args)
         {
             string s;
-            bool es = Application.systemLanguage == SystemLanguage.Spanish;
+            bool es = _englishScopes == 0 && Application.systemLanguage == SystemLanguage.Spanish;
             if (!(es && Es.TryGetValue(key, out s)) && !En.TryGetValue(key, out s)) s = key;
             if (args == null || args.Length == 0) return s;
             try { return string.Format(s, args); }

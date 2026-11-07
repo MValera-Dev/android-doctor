@@ -22,9 +22,8 @@ namespace AndroidDoctor.UI
         ChecksPanel _checks;
         GradleLogPanel _gradle;
 
-        // What the last run found and what the machine looked like then, for Copy report.
+        // Null until the first run: Copy report needs a run to have happened.
         List<Finding> _lastFindings;
-        ReportEnvironment _lastEnvironment;
 
         [MenuItem("Window/Android Doctor")]
         public static void Open()
@@ -128,7 +127,6 @@ namespace AndroidDoctor.UI
                 finally { EditorUtility.ClearProgressBar(); } // an exception must never leave the bar stuck
 
                 _lastFindings = findings;
-                _lastEnvironment = ReportEnvironmentReader.Capture(ctx);
                 RefreshSubheader();
                 _checks.Show(findings);
             }
@@ -142,8 +140,13 @@ namespace AndroidDoctor.UI
         void CopyReport()
         {
             if (_lastFindings == null) { Notify(Messages.Get("ui.copyReport.first")); return; }
-            EditorGUIUtility.systemCopyBuffer = ReportBuilder.Build(_lastEnvironment, _lastFindings);
-            Notify(Messages.Get("ui.copyReport.done"));
+            try
+            {
+                // Always English: the findings on screen are in the UI language, so the checks run again for the report.
+                EditorGUIUtility.systemCopyBuffer = EnglishReport.BuildCurrent();
+                Notify(Messages.Get("ui.copyReport.done"));
+            }
+            catch (Exception e) { _checks.ShowInternalError(e); }
         }
 
         void ApplyFix(Finding finding)

@@ -304,6 +304,29 @@ namespace AndroidDoctor.Tests
             Assert.AreEqual(Category.General, stop.Category);
         }
 
+        sealed class TextRule : IRule
+        {
+            TextRule() { } // private, so DiscoverRules never picks a test rule up
+            public static IRule Create() => new TextRule();
+            public string Id => "TST100";
+            public Category Category => Category.Project;
+            public IEnumerable<Finding> Run(RuleContext ctx)
+            {
+                return new[] { new Finding(Id, Category.Project, Severity.Warning, Messages.Get("ui.run"), Messages.Get("ui.idle")) };
+            }
+        }
+
+        [Test] public void TheReport_IsInEnglish_EvenWhenTheUiIsNot()
+        {
+            string ui = Messages.Get("ui.run"); // Spanish on a Spanish system, English otherwise
+
+            string report = EnglishReport.Build(new List<IRule> { TextRule.Create() }, new RuleContext());
+
+            StringAssert.Contains("**TST100** Run checks.", report);
+            StringAssert.Contains("Press Run checks.", report);
+            Assert.AreEqual(ui, Messages.Get("ui.run"), "the UI language is back after the report");
+        }
+
         [Test] public void WithoutABudget_EverythingRuns()
         {
             var rules = new List<IRule> { SlowRule.Create("TST001", 5), SlowRule.Create("TST002", 5) };
