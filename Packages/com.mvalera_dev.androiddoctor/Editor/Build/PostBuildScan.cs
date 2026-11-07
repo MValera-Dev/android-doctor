@@ -19,6 +19,8 @@ namespace AndroidDoctor.Build
         public void OnPostprocessBuild(BuildReport report)
         {
             if (report.summary.platform != BuildTarget.Android) return;
+            // Unity only runs this after a build that worked, so an earlier failure is no longer the problem.
+            Gradle.GradleErrorCapture.Clear();
             string output = report.summary.outputPath;
             // A Gradle project export is a folder, not a file: nothing to open.
             if (string.IsNullOrEmpty(output) || !File.Exists(output)) return;

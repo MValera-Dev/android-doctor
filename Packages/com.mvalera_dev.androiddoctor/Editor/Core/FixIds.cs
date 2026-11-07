@@ -23,12 +23,13 @@ namespace AndroidDoctor
         public const string GradleProperties = "FIX_GRADLE_PROPERTIES";
         public const string CleanCache = "FIX_CLEAN_CACHE";
         public const string OpenPlayerSettings = "FIX_OPEN_PLAYER_SETTINGS";
+        public const string ResetResolver = "FIX_RESET_RESOLVER";
 
         public static readonly string[] All =
         {
             TargetApi, MinApi, Arm64, OpenExternalTools, SelectAsset, UnityTools, Heap, ClearEnvironmentVariable,
             AppBundle, UpdatePackage, OpenPackage, DisablePlugin, Exported, ResetTemplates, GradleProperties,
-            CleanCache, OpenPlayerSettings,
+            CleanCache, OpenPlayerSettings, ResetResolver,
         };
 
         /// <summary>False for fixes that only open a window or select something; they never belong in "Fix all".</summary>

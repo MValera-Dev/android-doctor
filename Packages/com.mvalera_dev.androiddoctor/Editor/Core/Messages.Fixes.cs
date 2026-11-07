@@ -90,6 +90,15 @@ namespace AndroidDoctor
             { "fix.gradleProps.nothing", "{0} has nothing to change." },
             { "fix.gradleProps.done", "Updated {0} setting(s) in {1}. Original saved in {2}." },
 
+            // Gradle errors
+            { "GRD006.off", "Turn off {0}" },
+            { "GRD006.resolver", "Reset the Android Resolver (EDM4U)" },
+            { "GRD011.fix", "Set the minimum API level to {0}" },
+            { "GRD000.clean", "Clean the generated Android project" },
+            { "fix.resolver.describe", "Run the External Dependency Manager's \"Delete Resolved Libraries\" and then \"Force Resolve\". It downloads the libraries again, so it needs your connection." },
+            { "fix.resolver.missing", "The External Dependency Manager menu was not found." },
+            { "fix.resolver.done", "Asked the External Dependency Manager to resolve the libraries again." },
+
             // Build cache
             { "fix.cleanCache.describe", "Delete Unity's generated Android Gradle project (Library/Bee/Android and Temp/gradleOut). Unity creates it again on the next build; nothing of yours is touched." },
             { "fix.cleanCache.nothing", "There was no generated Android project to delete." },
@@ -171,6 +180,14 @@ namespace AndroidDoctor
             { "fix.gradleProps.describe", "En {0}, cambiar el ajuste retirado por android.useFullClasspathForDexingTransform=true:\n{1}\nAntes se guarda el original." },
             { "fix.gradleProps.nothing", "{0} no tiene nada que cambiar." },
             { "fix.gradleProps.done", "Actualizados {0} ajuste(s) en {1}. Original guardado en {2}." },
+
+            { "GRD006.off", "Desactivar {0}" },
+            { "GRD006.resolver", "Reiniciar el Android Resolver (EDM4U)" },
+            { "GRD011.fix", "Poner el API level mínimo en {0}" },
+            { "GRD000.clean", "Limpiar el proyecto de Android generado" },
+            { "fix.resolver.describe", "Ejecutar «Delete Resolved Libraries» y después «Force Resolve» del External Dependency Manager. Vuelve a descargar las librerías, así que necesita tu conexión." },
+            { "fix.resolver.missing", "No se encontró el menú del External Dependency Manager." },
+            { "fix.resolver.done", "Se pidió al External Dependency Manager que resuelva las librerías otra vez." },
 
             { "fix.cleanCache.describe", "Borrar el proyecto Gradle de Android que genera Unity (Library/Bee/Android y Temp/gradleOut). Unity lo crea de nuevo en el siguiente build; no se toca nada tuyo." },
             { "fix.cleanCache.nothing", "No había ningún proyecto de Android generado que borrar." },

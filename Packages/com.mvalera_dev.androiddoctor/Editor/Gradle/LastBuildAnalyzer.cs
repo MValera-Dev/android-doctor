@@ -22,12 +22,28 @@ namespace AndroidDoctor.Gradle
         internal static GradleError Analyze(string editorLogText, Func<string, string> readFile)
         {
             var fromEditorLog = GradleLogParser.Extract(editorLogText);
-            if (fromEditorLog != null) return fromEditorLog;
+            if (fromEditorLog != null) return SucceededAfter(editorLogText, fromEditorLog.Block) ? null : fromEditorLog;
 
             // The failure may be cut off in a big log; try the Gradle log Unity says it saved.
             string gradleLogPath = LogSource.FindGradleLogPath(editorLogText);
             string gradleLog = gradleLogPath == null ? null : readFile(gradleLogPath);
-            return GradleLogParser.Extract(gradleLog);
+            var fromFile = GradleLogParser.Extract(gradleLog);
+            return fromFile == null || SucceededAfter(editorLogText, "Build log was saved at") ? null : fromFile;
+        }
+
+        // Unity prints this line when a build finishes well. If it comes after the failure, the failure is old news.
+        static readonly string[] SuccessMarkers = { "Build completed with a result of 'Succeeded'", "Build Finished, Result: Success" };
+
+        /// <summary>True when a successful build is reported after the last place where <paramref name="failureMarker"/> appears.</summary>
+        internal static bool SucceededAfter(string log, string failureMarker)
+        {
+            if (string.IsNullOrEmpty(log) || string.IsNullOrEmpty(failureMarker)) return false;
+            string first = failureMarker.Length > 60 ? failureMarker.Substring(0, 60) : failureMarker;
+            int failureAt = log.LastIndexOf(first, StringComparison.Ordinal);
+            if (failureAt < 0) return false;
+            foreach (string marker in SuccessMarkers)
+                if (log.LastIndexOf(marker, StringComparison.Ordinal) > failureAt) return true;
+            return false;
         }
 
         static string ReadFileOrNull(string path)
