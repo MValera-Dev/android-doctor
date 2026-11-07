@@ -1,7 +1,7 @@
 {
     "name": "com.mvalera_dev.androiddoctor",
     "displayName": "Android Doctor",
-    "version": "0.9.0",
+    "version": "1.0.0",
     "unity": "2022.3",
     "description": "Diagnoses Android build, Gradle and Google Play 16 KB problems in Unity.",
     "keywords": ["android", "gradle", "google-play", "16kb", "diagnostics"],
