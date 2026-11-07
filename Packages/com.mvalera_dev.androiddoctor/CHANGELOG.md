@@ -3,7 +3,7 @@
 All notable changes to this package are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
-## [1.0.0] - 2026-11-07
+## [0.9.0] - 2026-11-07 (pre-release)
 
 ### Added
 
@@ -20,6 +20,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 ### Known limitations
 
 - Tested on Unity 6000.6.4f1 on Windows only; Unity 2022.3 is declared as the minimum but has not been run.
+- Most findings explain the problem and what to do; one-click fixes exist only for target API, Min API and ARM64. More fixes are coming before 1.0.0.
 - ZIP alignment of uncompressed `.so` files in an APK (BLD002) is not checked.
 
 ## [0.1.0] - 2026-11-06
