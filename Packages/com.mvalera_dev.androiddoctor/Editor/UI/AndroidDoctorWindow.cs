@@ -17,7 +17,7 @@ namespace AndroidDoctor.UI
 
         Label _subheader;
         Label _buildFile;
-        Button _checksTab, _gradleTab;
+        Button _checksTab, _gradleTab, _fixAll;
         VisualElement _checksToolbar;
         ChecksPanel _checks;
         GradleLogPanel _gradle;
@@ -67,7 +67,10 @@ namespace AndroidDoctor.UI
             _checksToolbar.Add(Grow(new Button(RunChecks) { text = Messages.Get("ui.run") }));
             _checksToolbar.Add(Grow(new Button(ScanBuild) { text = Messages.Get("ui.scanBuild") }));
             _checksToolbar.Add(Grow(new Button(CopyReport) { text = Messages.Get("ui.copyReport") }));
+            _fixAll = new Button(FixAll);
+            _fixAll.style.display = DisplayStyle.None;
             root.Add(_checksToolbar);
+            root.Add(_fixAll);
 
             _buildFile = new Label();
             _buildFile.style.display = DisplayStyle.None;
@@ -88,6 +91,7 @@ namespace AndroidDoctor.UI
         {
             _checks.style.display = checks ? DisplayStyle.Flex : DisplayStyle.None;
             _checksToolbar.style.display = checks ? DisplayStyle.Flex : DisplayStyle.None;
+            if (!checks) _fixAll.style.display = DisplayStyle.None; else if (_lastFindings != null) UpdateFixAll();
             _gradle.style.display = checks ? DisplayStyle.None : DisplayStyle.Flex;
             _checksTab.style.unityFontStyleAndWeight = checks ? FontStyle.Bold : FontStyle.Normal;
             _gradleTab.style.unityFontStyleAndWeight = checks ? FontStyle.Normal : FontStyle.Bold;
@@ -129,6 +133,7 @@ namespace AndroidDoctor.UI
                 _lastFindings = findings;
                 RefreshSubheader();
                 _checks.Show(findings);
+                UpdateFixAll();
             }
             catch (Exception e)
             {
@@ -149,10 +154,25 @@ namespace AndroidDoctor.UI
             catch (Exception e) { _checks.ShowInternalError(e); }
         }
 
-        void ApplyFix(Finding finding)
+        void UpdateFixAll()
+        {
+            int count = FixFlow.CountAllInOne(_lastFindings);
+            _fixAll.style.display = count > 0 ? DisplayStyle.Flex : DisplayStyle.None;
+            _fixAll.text = Messages.Get("ui.fixAll", count);
+        }
+
+        void FixAll()
         {
             string message;
-            bool applied = FixFlow.Run(finding, out message);
+            bool applied = FixFlow.RunAll(_lastFindings, out message);
+            if (message != null) Notify(message);
+            if (applied) RunChecks();
+        }
+
+        void ApplyFix(Finding finding, FixAction action)
+        {
+            string message;
+            bool applied = FixFlow.Run(finding, action, out message);
             if (message != null) Notify(message);
             if (applied) RunChecks(); // run again so the finding disappears
         }

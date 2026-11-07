@@ -89,7 +89,7 @@ namespace AndroidDoctor.Tests
         {
             Finding pressed = null;
             var finding = F(fixId: FixIds.TargetApi);
-            var card = new FindingCard(finding, f => pressed = f);
+            var card = new FindingCard(finding, (f, a) => pressed = f);
 
             Assert.IsNotNull(card.FixButton);
             Assert.AreEqual("Do the fix", card.FixButton.text);

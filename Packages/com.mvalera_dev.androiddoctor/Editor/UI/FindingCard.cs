@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,7 +19,8 @@ namespace AndroidDoctor.UI
         public Label TitleLabel { get; }
         public Label DetailLabel { get; }
         public Foldout EvidenceFoldout { get; }   // null when the finding has no evidence
-        public Button FixButton { get; }          // null unless the finding has a fix that exists
+        public Button FixButton { get; }          // the first action's button; null unless there is one
+        public IReadOnlyList<Button> ActionButtons { get; } // one per action whose fix exists
         public Button CopyCommandButton { get; }  // null unless the finding has a command
         public Button DocsButton { get; }         // null unless the finding has a docs URL
 
@@ -33,7 +36,7 @@ namespace AndroidDoctor.UI
 
         /// <param name="onFix">Called when the user presses the fix button. May be null.</param>
         /// <param name="notify">Shows a short message to the user. May be null.</param>
-        public FindingCard(Finding finding, Action<Finding> onFix, Action<string> notify = null)
+        public FindingCard(Finding finding, Action<Finding, FixAction> onFix, Action<string> notify = null)
         {
             Finding = finding;
             style.borderLeftWidth = 4;
@@ -75,17 +78,22 @@ namespace AndroidDoctor.UI
                 Add(EvidenceFoldout);
             }
 
-            bool hasFix = !string.IsNullOrEmpty(finding.FixId) && FixRegistry.Get(finding.FixId) != null;
-            if (!hasFix && string.IsNullOrEmpty(finding.Command) && string.IsNullOrEmpty(finding.DocsUrl)) return;
+            var actions = finding.Actions.Where(a => FixRegistry.Get(a.FixId) != null).ToList();
+            var actionButtons = new List<Button>();
+            ActionButtons = actionButtons;
+            if (actions.Count == 0 && string.IsNullOrEmpty(finding.Command) && string.IsNullOrEmpty(finding.DocsUrl)) return;
 
             var buttons = new VisualElement();
             buttons.style.flexDirection = FlexDirection.Row;
             buttons.style.marginTop = 2;
-            if (hasFix)
+            buttons.style.flexWrap = Wrap.Wrap;
+            foreach (var action in actions)
             {
-                FixButton = new Button(() => onFix?.Invoke(finding)) { text = finding.FixLabel ?? Messages.Get("ui.fix") };
-                buttons.Add(FixButton);
+                var button = new Button(() => onFix?.Invoke(finding, action)) { text = action.Label ?? Messages.Get("ui.fix") };
+                actionButtons.Add(button);
+                buttons.Add(button);
             }
+            FixButton = actionButtons.FirstOrDefault();
             if (!string.IsNullOrEmpty(finding.Command))
             {
                 CopyCommandButton = new Button(() =>

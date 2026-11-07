@@ -10,13 +10,13 @@ namespace AndroidDoctor.UI
     {
         readonly Label _summary;
         readonly ScrollView _results;
-        readonly Action<Finding> _onFix;
+        readonly Action<Finding, FixAction> _onFix;
         readonly Action<string> _notify;
 
         public string SummaryText => _summary.text;
         public ScrollView Results => _results;
 
-        public ChecksPanel(Action<Finding> onFix, Action<string> notify)
+        public ChecksPanel(Action<Finding, FixAction> onFix, Action<string> notify)
         {
             _onFix = onFix;
             _notify = notify;

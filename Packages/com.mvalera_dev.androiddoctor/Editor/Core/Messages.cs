@@ -8,7 +8,7 @@ namespace AndroidDoctor
     /// A key missing in Spanish falls back to English; a key missing in both returns the key itself,
     /// so an omission is visible on screen instead of crashing.
     /// </summary>
-    public static class Messages
+    public static partial class Messages
     {
         static readonly Dictionary<string, string> En = new Dictionary<string, string>
         {
@@ -545,7 +545,8 @@ namespace AndroidDoctor
         {
             string s;
             bool es = _englishScopes == 0 && Application.systemLanguage == SystemLanguage.Spanish;
-            if (!(es && Es.TryGetValue(key, out s)) && !En.TryGetValue(key, out s)) s = key;
+            if (!(es && (Es.TryGetValue(key, out s) || EsFixes.TryGetValue(key, out s)))
+                && !En.TryGetValue(key, out s) && !EnFixes.TryGetValue(key, out s)) s = key;
             if (args == null || args.Length == 0) return s;
             try { return string.Format(s, args); }
             catch (System.FormatException) { return s; } // a text asking for more values than given must not break a diagnosis
